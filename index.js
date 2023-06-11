@@ -5,7 +5,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 
-const port = 3000;
+const port = process.env.PORT || 3000;
 const { engine } = require("express-handlebars");
 
 // sử dụng view engine
