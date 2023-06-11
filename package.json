@@ -1,5 +1,4 @@
 {
-  "module": "CommonJS",
   "scripts": {
     "start": "node index.js"
   },
