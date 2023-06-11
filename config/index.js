@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const ConnectDB = async () => {
   // Connect to the MongoDB cluster
   const option = {
-    dbName: "movies",
+    // dbName: "movies",
     useNewUrlParser: true,
     useUnifiedTopology: true,
   };
