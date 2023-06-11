@@ -1,0 +1,156 @@
+<section class="flex flex-wrap items-center justify-between border-gray-600 border-b-[0.5px] pb-4 mb-3">
+    <h1 class="text-3xl font-semibold">{{title}}</h1>
+    {{#if _id}}
+    <a href="/catelog/showEsopide/{{_id}}" class="text-sm">
+        <button
+            class="py-2 px-3 rounded-xl bg-blue-700 text-gray-100 hover:bg-white hover:text-black ease-linear duration-100">
+            Add Esopide
+        </button>
+    </a>
+    {{/if}}
+
+</section>
+<section>
+    {{#if error}}
+    <div class=" border-gray-600 border-[0.5px] infomation text-center text-red-500 capitalize"> Lỗi: {{error}}</div>
+    {{/if}}
+    {{#if message}}
+    <div class="border-gray-600 border-[0.5px] infomation text-center capitalize"> Thông Báo: {{message}}</div>
+    {{/if}}
+
+</section>
+<section class="border-gray-600 border-[0.5px] rounded-xl p-2">
+    <form action="" class="flex flex-wrap gap-y-4" method="post" enctype="multipart/form-data">
+        <div class="lg:basis-1/4 md:basis-1/2 basis-full flex md:pr-3">
+            <label for="thumb"
+                class="m-auto flex flex-1 h-full bg-[#151F30] min-w-[190px] min-h-[130px] sm:min-h-[290px] relative cursor-pointer">
+                <div class="m-auto">Upload Thumb </div>
+                <figure class="absolute z-[1] gap-1 grid md:grid-cols-1 grid-cols-3">
+                    <img class="w-full object-cover col-span-1" id="thumbimg" src="{{thumb_url}}" alt="" />
+
+                    <img id="posterimg"
+                        class="w-full object-cover md:col-span-1 col-span-2 sm:max-h-[auto] max-h-[120px]"
+                        src="{{poster_url}}" alt="" />
+                </figure>
+            </label>
+            <input id="thumb" type="file" name="uploadfile" class="hidden" />
+        </div>
+        <div class="lg:basis-3/4 md:basis-1/2 basis-full flex flex-col gap-y-3">
+            <input required type="text" class="input_style" placeholder="Title" value="{{name}}" name="name" />
+            <input required type="text" class="input_style" placeholder="Origin Name" value="{{origin_name}}"
+                name="origin_name" />
+            <textarea required class="bg-[#151F30] border-none outline-none px-2 py-1" value="{{description}}"
+                placeholder="Description" name="description" rows="4">{{description}}</textarea>
+            {{#if _id}}
+            <input type="text" name="idFilm" hidden id="idFilm" value="{{_id}}">
+            {{/if}}
+            <div id="category-container" class="Category_container">
+                {{#if _id}}
+                <ul class="flex gap-2 flex-wrap">
+                    {{#each category}}
+                    <li class="capitalize rounded-xl py-3 px-2  bg-[#3d187d] text-sm relative">
+                        <span> {{this.category}}</span>
+                        <span class="absolute -top-3 -right-1"> <button data-name="{{this.category}}" data-type="delete"
+                                data-id="{{this._id}}" type="button"
+                                class="py-2 px-1  text-base hover:text-red-500">X</button></span>
+                    </li>
+                    {{/each }}
+
+                </ul>
+                {{/if}}
+
+                <label>
+                    <input mbsc-input id="categories-input" placeholder="Category" data-dropdown="true"
+                        data-input-style="outline" data-label-style="stacked" data-tags="true" />
+                </label>
+                <select id="categories" name="categories" multiple>
+
+                </select>
+            </div>
+            <div class="grid lg:grid-cols-4 grid-cols-2 gap-2">
+                <input required type="text" class="input_style" value="{{time}}" placeholder="Time" name="time" />
+                <input required type="number" class="input_style" value="{{year}}" placeholder="Year" name="year" />
+                <input required type="text" class="input_style capitalize" value="{{country.country}}"
+                    placeholder="Country" name="country" />
+
+            </div>
+            <div class="grid lg:grid-cols-4 grid-cols-2 gap-2 {{#if episode_current}} {{else}}hideElement {{/if}}">
+                <div>
+                    <label for="eposode_total">Total Esopide</label>
+                    <input required type="number" id="eposode_total" class="input_style capitalize"
+                        value="{{#if eposode_total}}{{eposode_total}}{{else}}1{{/if}}" placeholder="Total Esopide"
+                        name="eposode_total" />
+                </div>
+                <div>
+                    <label for="episode_current">Esopide Current</label>
+                    <input required type="number" id="episode_current" class="input_style capitalize"
+                        value="{{#if episode_current}}{{episode_current}}{{else}}0{{/if}}" placeholder="Esopide current"
+                        name="episode_current" />
+                </div>
+            </div>
+            <div class="grid lg:grid-cols-4 grid-cols-2 gap-2">
+                <select required name="kind" class="input_style cursor-pointer" id="kind">
+                    {{#if kind}}
+                    <option class="capitalize" value="{{kind}}">{{kind}}</option>
+                    {{else}}
+                    <option value="feature">Kind</option>
+                    {{/if}}
+
+                    <option value="feature">Phim lẻ</option>
+                    <option value="series">Phim dài tập</option>
+                    <option value="trailer">Phim Trailer</option>
+                </select>
+                <select required name="status" class="input_style cursor-pointer" id="status">
+                    {{#if status}}
+                    <option class="capitalize" value="{{status}}">{{status}}</option>
+                    {{else}}
+                    <option value="completed">Status</option>
+                    {{/if}}
+
+                    <option value="completed">Hoàn thành</option>
+                    <option value="uncompeleted">Chưa hoàn thành</option>
+                </select>
+                <select required name="quanlity" class="input_style cursor-pointer" id="quanlity">
+
+                    {{#if quanlity}}
+                    <option class="capitalize" value="{{quanlity}}">{{quanlity}}</option>
+                    {{else}}
+                    <option value="HD">Quanlity</option>
+                    {{/if}}
+                    <option value="HD">HD</option>
+                    <option value="Full HD">Full HD</option>
+                </select>
+                <select required name="lang" class="input_style cursor-pointer" id="lang">
+                    {{#if lang}}
+                    <option class="capitalize" value="{{lang}}">{{lang}}</option>
+                    {{else}}
+                    <option value="VietSub">Lang</option>
+                    {{/if}}
+
+                    <option value="VietSub">VietSub</option>
+                    <option value="Thuyết Minh">Thuyết Minh</option>
+                    <option value="Lồng Tiếng">Lồng Tiếng</option>
+                </select>
+            </div>
+            <div>
+                <label for="poster"
+                    class="bg-[#151F30] w-100 h-10 rounded-xl flex items-center justify-between px-4 text-sm cursor-pointer">
+                    <span>Upload Poster</span>
+                    <i class="fa-solid fa-link"></i>
+                </label>
+
+                <input type="file" hidden name="uploadfile" id="poster" />
+            </div>
+        </div>
+        <div class="basis-full text-center">
+            <button type="submit"
+                class="py-2 px-3 rounded-xl bg-blue-700 text-gray-100 hover:bg-white hover:text-black ease-linear duration-100 sm:w-[200px] w-4/5">
+                {{#if _id}}Edit{{else}}Create{{/if}}
+            </button>
+        </div>
+    </form>
+</section>
+
+
+
+<script type="module" src="/js/additem.js"></script>

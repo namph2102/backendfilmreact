@@ -1,0 +1,386 @@
+<link rel="stylesheet" href="/style/catelog.css">
+<section class="flex flex-wrap items-center justify-between border-gray-600 border-b-[0.5px] pb-4 mb-3">
+    <h1 class="text-3xl font-semibold">Edit User</h1>
+</section>
+<div class="infomation text-center text-red-500 capitalize"> {{#if error}} Lỗi: {{error}} {{/if}}</div>
+<div class="infomation text-center capitalize "> {{#if message}} <span class="inline-block my-3"> Thông báo:
+        {{message}}</span> {{/if}}</div>
+<article class="p-4 bg-[#151f30] rounded-2xl mb-4">
+    <div class="flex items-center justify-between  flex-wrap gap-y-4">
+        <div class="flex gap-3 sm:basis-1/3  basis:1/2">
+            <img src="{{account.avata}}" width="40" height="40" class="object-cover rounded-lg" alt="" />
+            <div>
+                <p><strong> {{account.fullname}}</strong>
+
+                    {{#if account.blocked}}
+                    <sub class="text-sm font-blod text-red-700">Block</sub>
+                    {{else}}
+                    <sub class="text-sm font-blod text-green-700">Active</sub>
+                    {{/if}}
+
+                </p>
+                <p class="text-sm font-bold"><strong>Id:</strong> #{{account._id}}</p>
+            </div>
+        </div>
+        <nav class="ml-auto  md:ml-1/5 ">
+            <div class="flex relative sm:hidden">
+                <button id="name_menu-selector" class="text-base font-semibold">
+                    Profile
+                </button>
+                <button class="btn_effect min-w-[60px] h-[40px]" id="btn_filter">
+                    <span></span><span class="hideElement"></span>
+                    <span></span>
+                </button>
+                <nav class="absolute top-full z-[2] right-0">
+                    <ul id="menu_mobile"
+                        class="font-semibold text-slate-300 hideElement   cursor-pointer min-w-[150px] bg-slate-900 rounded-2xl py-3 px-4 ">
+                        <li data-menu="profile" class="active">Profile</li>
+                        <li data-menu="comment">Comments</li>
+                        <li data-menu="payment">PayMent</li>
+                    </ul>
+                </nav>
+            </div>
+            <ul id="menu_tablet-large" class="gap-3 sm:flex hidden user-menu user-menu_tablet-large">
+                <li data-menu="profile" class="active">Profile</li>
+                <li data-menu="comment">Comments</li>
+                <li data-menu="payment">PayMent</li>
+            </ul>
+        </nav>
+
+    </div>
+</article>
+
+<section class="border-gray-600 border-[0.5px] rounded-xl p-3 scroll_settings">
+    <!-- form change password anh show user detail -->
+    <div id="profile" class="content_menu grid sm:grid-cols-2 grid-cols-1 gap-3 bg-[#151F30]">
+        <form method="post" action=""
+            class="grid lg:grid-cols-2 grid-cols-1 gap-x-3 gap-y-5 bg-[#131720] p-4 rounded-xl">
+
+            <h2 class="text-base font-bold mb-4 lg:col-span-2 col-span-1">
+                Profile details
+            </h2>
+            <input type="text" hidden name="iduser" id="iduser" value="{{account._id}}">
+            <div>
+                <label for="username">UserName</label>
+                <div>
+                    <input type="text" id="username" value="{{account.username}}" readonly required class="input_style"
+                        value="namhoai" />
+                </div>
+            </div>
+            <!-- ------------- -->
+            <div>
+                <label for="fullname">FullName</label>
+                <div>
+                    <input type="text" id="fullname" value="{{account.fullname}}" name="fullname" required
+                        class="input_style" value="namhoai" />
+                </div>
+            </div>
+            <!-- ------------- -->
+            <div>
+                <label for="permission">Permission</label>
+
+                <select id="permission" name="permission" class="input_style cursor-pointer" id="permission">
+                    <option value="{{account.permission}}">{{account.permission}}</option>
+                    <option value="admin">Admin</option>
+                    <option value="vip">Vip</option>
+                    <option value="member">Member</option>
+                </select>
+            </div>
+            <!-- ------------- -->
+            <div>
+                <label for="vip">Vip</label>
+                <div>
+                    <input type="number" min="0" max="10" id="vip" name="vip" required class="input_style"
+                        value="{{account.vip}}" />
+                </div>
+            </div>
+            <!-- ------------- -->
+            <div>
+                <label for="expLv">Total ExpLevel</label>
+                <div>
+                    <input type="number" id="expLv" name="expLv" required class="input_style"
+                        value="{{account.expLv}}" />
+                </div>
+            </div>
+            <!-- ------------- -->
+            <div>
+                <label for="coin">Coin</label>
+                <div>
+                    <input type="number" id="coin" name="coin" required class="input_style" value="{{account.coin}}" />
+                </div>
+            </div>
+            <!-- ------------- -->
+            <div class="icon_container lg:col-span-2 col-span-1">
+                <p>Icons</p>
+                <div id="icons_container" class="flex flex-wrap gap-3 my-2">
+                    {{#each account.icons}}
+                    <div class="relative icon_content-box">
+                        <img width="40" height="40" src="{{this.link}}" class="icon_item" alt="" />
+                        <p
+                            class="absolute text-xs icon_item-flag bg-blue-600 py-1 px-3 min-w-[150px] max-w-[300px] text-center rounded-xl -top-full left-1/2 -translate-x-1/2">
+                            {{this.title}}
+                        </p>
+
+                        <span data-title="{{this.title}}" data-id="{{this._id}}" title="Delete icon"
+                            class="icon_delete absolute -top-3 -right-1 cursor-pointer hover:text-red-500 hover:fill-white"><i
+                                class="fa-solid fa-circle-xmark"></i></span>
+
+                    </div>
+                    {{/each}}
+
+                </div>
+                <label>
+                    <input mbsc-input id="icons-input" placeholder="Icons" data-dropdown="true"
+                        data-input-style="outline" data-label-style="stacked" data-tags="true" />
+                </label>
+                <select id="icons" name="icons" multiple>
+                    {{#each listIcons}}
+                    <option value="{{this._id}}">{{this.title}}</option>
+                    {{/each}}
+
+
+                </select>
+            </div>
+            <!-- ------------- -->
+            <div>
+                <label for="blocked">Trạng thái</label>
+                <select class="input_style cursor-pointer" name="blocked" id="blocked">
+                    {{#if account.blocked}}
+                    <option value="true">Khóa</option>
+                    {{else}}
+                    <option value="false">Không Khóa</option>
+                    {{/if}}
+
+                    <option value="true">Khóa</option>
+                    <option value="false">Mở Khóa</option>
+                </select>
+            </div>
+            <!-- ------------- -->
+            <div>
+                <label for="updatedAt">Updated Time</label>
+                <div>
+                    <input type="text" id="updatedAt" class="input_style" readonly value="{{ account.updatedAt}}" />
+                </div>
+            </div>
+            <div class="lg:col-span-2 col-span-1 text-center">
+                <button
+                    class="py-2 px-3 rounded-xl bg-blue-700 text-gray-100 hover:bg-white hover:text-black ease-linear duration-100 sm:w-[200px] w-4/5">
+                    Save
+                </button>
+            </div>
+        </form>
+        <div class="grid lg:grid-cols-2 grid-cols-1 gap-x-3 gap-y-5 bg-[#131720] p-4 rounded-xl max-h-[100vh]">
+            <h2 class="text-base font-bold mb-4 lg:col-span-2 col-span-1">
+                Change Password
+            </h2>
+            <!-- ------------- -->
+            <div>
+                <label for="password">New Password</label>
+                <div>
+                    <input type="password" minlength="5" id="password" name="password" required class="input_style"
+                        placeholder="Enter new Password" value="" />
+                </div>
+            </div>
+            <!-- ------------- -->
+            <div>
+                <label for="rpassword">Confirm Password</label>
+                <div>
+                    <input type="password" minlength="5" id="rpassword" name="rpassword" required class="input_style"
+                        placeholder="Enter Confirm Password" value="" />
+                </div>
+            </div>
+            <div class="lg:col-span-2 col-span-1 text-center">
+                <button id="submitPassword"
+                    class="py-2 px-3 rounded-xl bg-blue-700 text-gray-100 hover:bg-white hover:text-black ease-linear duration-100 sm:w-[200px] w-4/5">
+                    Change Password
+                </button>
+            </div>
+
+            <form class="flex flex-col justify-center items-center lg:col-span-2 col-span-1" method="post"
+                enctype="multipart/form-data" action="">
+                <input type="text" hidden name="iduser" required value="{{account._id}}">
+                <label for="avata"
+                    class="m-auto  border-2 border-dashed border-white flex flex-1 bg-[#151F30] w-full min-h-[200px] relative cursor-pointer">
+                    <div class="m-auto">Change Avata</div>
+                    <figure class="absolute inset-0">
+                        <img class="w-full h-full object-cover col-span-1" src="{{account.avata}}" id="showAvata"
+                            alt="" />
+                    </figure>
+                </label>
+                <input id="avata" type="file" name="uploadavata" class="hidden" />
+                <button type="submit"
+                    class="py-2 px-3 mt-4 rounded-xl bg-blue-700 text-gray-100 hover:bg-white hover:text-black ease-linear duration-100 sm:w-[200px] w-4/5">
+                    Change Avata
+                </button>
+            </form>
+        </div>
+    </div>
+    <!-- end form change password anh show user detail -->
+
+    <!-- show comment list -->
+
+    <div id="comment" class="content_menu bg-[#131720] hideElement  w-full">
+        <div class="scroll_settings">
+            <table class="table w-full text-center p-2" id="table_container">
+                <thead class="text-base font-bold text-slate-400">
+                    <tr>
+                        <td>
+                            <div class="whitespace-nowrap px-2">Id</div>
+                        </td>
+                        <td>
+                            <div class="whitespace-nowrap px-2">Author</div>
+                        </td>
+                        <td>
+                            <div class="whitespace-nowrap px-2">Text</div>
+                        </td>
+                        <td>
+                            <div class="whitespace-nowrap px-2">Total Reply</div>
+                        </td>
+                        <td>
+                            <div class="whitespace-nowrap px-2">Like</div>
+                        </td>
+                        <td>
+                            <div class="whitespace-nowrap px-2">
+                                Editor
+                            </div>
+                        </td>
+                        <td>
+                            <div class="whitespace-nowrap px-2">Created Date</div>
+                        </td>
+                        <td colspan="2
+                  ">
+                            <div class="my-3">Actions</div>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody id="comment_body">
+                    <tr>
+                        <td>
+                            <div class="px-2">
+                                <div class="animate-spin h-5 w-5"><i class="fa-solid fa-spinner"></i></div>
+                                <p>Không có dữ liệu ...</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {{!-- <tr class="bg-[#151F30] border-y-[10px] border-[#131720] rounded-3xl">
+                        <td>
+                            <div class="max-w-[80px] overflow-auto scroll_with-none mt-4 mx-2">
+                                #asdsdasdasda
+                            </div>
+                        </td>
+                        <td>hoài Nam</td>
+                        <td>
+                            <div class="whitespace-nowrap text-ellipsis overflow-hidden max-w-[120px] py-4">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                                Rerum aspernatur amet, architecto dolor aliquid magni
+                                perferendis excepturi quis ipsa esse praesentium tenetur
+                                vero quidem temporibus repellendus pariatur hic.
+                                Consequuntur, ad!
+                            </div>
+                        </td>
+                        <td>hoài Nam</td>
+                        <td>12</td>
+                        <td>hoài Nam</td>
+                        <td>yes</td>
+                        <td class="btn_actions">
+                            <div class="min-w-[160px]">
+                                <button class="btn_view">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+
+                                <button class="btn_delete">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr> --}}
+                </tbody>
+            </table>
+        </div>
+        <div id="paginacomment" class="paginationjs">
+
+        </div>
+    </div>
+    <!--end show comment list -->
+
+    <!-- show payment -->
+    <div id="payment" class="content_menu bg-[#131720] hideElement  w-full">
+        <div class="scroll_settings">
+            <table class="table w-full text-center p-2" id="table_container">
+                <thead class="text-base font-bold text-slate-400">
+                    <tr>
+                        <td>
+                            <div class="whitespace-nowrap px-2">ID</div>
+                        </td>
+                        <td>
+                            <div class="whitespace-nowrap px-2">Paycode</div>
+                        </td>
+                        <td>
+                            <div class="whitespace-nowrap px-2">Payment</div>
+                        </td>
+                        <td>
+                            <div class="whitespace-nowrap px-2">Money</div>
+                        </td>
+                        <td>
+                            <div class="whitespace-nowrap px-2">Status</div>
+                        </td>
+                        <td>
+                            <div class="whitespace-nowrap px-2">Created Date</div>
+                        </td>
+                        <td colspan="4
+                  ">
+                            <div class="my-3">Actions</div>
+                        </td>
+                    </tr>
+                </thead>
+                <tbody id="payment_container">
+                    <tr>
+                        <td>
+                            <div class="px-2">
+                                <div class="animate-spin h-5 w-5"><i class="fa-solid fa-spinner"></i></div>
+                                <p>Không có dữ liệu ...</p>
+                            </div>
+                        </td>
+                    </tr>
+                    {{!-- <tr class="bg-[#151F30] border-y-[10px] border-[#131720] rounded-3xl">
+                        <td>
+                            <div class="max-w-[80px] overflow-auto scroll_with-none mt-4 mx-2">
+                                #asdsdasdasda
+                            </div>
+                        </td>
+                        <td>hoài Nam</td>
+
+                        <td>hoài Nam</td>
+                        <td>12</td>
+                        <td>Thành công</td>
+                        <td>hoài Nam</td>
+                        <td class="btn_actions">
+                            <div class="min-w-[160px]">
+                                <button title="Đồng ý" class="btn_agree">
+                                    <i class="fa-solid fa-handshake"></i>
+                                </button>
+                                <button title="Thất bại" class="btn_fail">
+                                    <i class="fa-solid fa-heart-crack"></i>
+                                </button>
+
+                                <button title="View" class="btn_view">
+                                    <i class="fa-solid fa-eye"></i>
+                                </button>
+
+                                <button title="Xóa" class="btn_delete">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </td>
+                    </tr> --}}
+                </tbody>
+            </table>
+        </div>
+        <div id="pagination_payment" class="paginationjs">
+
+        </div>
+    </div>
+    <!-- end show payment -->
+</section>
+
+<script type="module" src="/js/edituser.js"></script>

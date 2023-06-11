@@ -1,0 +1,115 @@
+<link rel="stylesheet" href="/style/catelog.css">
+<h1 class="text-3xl font-semibold border-gray-600 border-b-[0.5px] pb-4 mb-3">Add Esopide</h1>
+
+<a class="block p-1 hover:bg-slate-950  border-gray-600 border-b-[0.5px] pb-4 mb-3" href="http://">
+    <figure class="flex gap-x-2">
+        <img src="{{film.thumb_url}}" width="40" height="40" class="object-cover" alt="Hoài Nam" />
+        <figcaption>
+            <div class="flex flex-col">
+                <span class="text-base hover:text-yellow-400"> {{film.name}}</span>
+                <span class="text-sm"> {{film.updatedAt}}</span>
+            </div>
+        </figcaption>
+    </figure>
+</a>
+<section>
+    <div class="scroll_settings">
+        <table class="table w-full text-center" id="table_container">
+            <thead class="text-base font-bold text-slate-400">
+                <tr>
+                    <td>
+                        <div class="my-3">Actions</div>
+                    </td>
+                    <td>Esopide Embed</td>
+                    <td>Link Embed</td>
+                    <td>Esopide M3u8</td>
+                    <td>Link M3u8</td>
+
+                </tr>
+            </thead>
+            <tbody id="listItem_container">
+                {{!-- <tr class="bg-[#151F30] border-y-[10px] border-[#131720]">
+                    <td>
+                        <div class="">Tập 1</div>
+                    </td>
+                    <td>
+                        <div class="mx-2 py-3 overflow-auto scroll_with-none">
+                            #dsadsadsasaddsasdasadsad
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="mx-2 py-3 overflow-auto scroll_with-none">
+                            #dsadsadsasaddsasdasadsad
+                        </div>
+                    </td>
+
+                    <td class="btn_actions">
+                        <div class="min-w-[160px]">
+                            <button class="btn_view">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <button class="btn_edit">
+                                <i class="fa-solid fa-pencil"></i>
+                            </button>
+                            <button class="btn_delete">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr> --}}
+                <tr>
+                    <td>
+                        <div class="px-2">
+                            <div class="animate-spin h-5 w-5"><i class="fa-solid fa-spinner"></i></div>
+                            <p>Loading ...</p>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div id="pagination" class="paginationjs">
+
+    </div>
+</section>
+<section class="w-full">
+    <p><span class="text-yellow-400">Lưu ý</span> : Định dạng list</p>
+    <p class="text-sm my-1">
+        2|https://hd.1080phim.com/20230421/38258_48dbf3d8/index.m3u8
+    </p>
+    <p class="text-sm my-1">
+        1|https://hd.1080phim.com/20230421/38257_f2e85e2e/index.m3u8
+    </p>
+    <p class="mt-2">
+        <span class="text-yellow-400">Lưu ý</span> : Định dạng thêm 1 tập
+    </p>
+    <p class="text-sm my-1">
+        1|https://hd.1080phim.com/20230421/38257_f2e85e2e/index.m3u8
+    </p>
+    <p class="text-blue-50">Or</p>
+    <p class="text-sm my-1">
+        Full|https://hd.1080phim.com/20230421/38257_f2e85e2e/index.m3u8
+    </p>
+    <form id="formadd" class="mt-4" action="http://localhost:3000/catelog/viewesopide" method="post">
+        <input type="text" hidden name="idFilm" id="idFilm" value="{{film._id}}" />
+        <div>
+            <label for="listEsopideEmbeded text-base font-bold">Esopide Embed:</label>
+            <textarea name="listEsopideEmbeded"
+                class="my-2 text-base font-medium py-1 px-3 bg-[#151F30] w-full scroll_settings" id="listEsopideEmbeded"
+                rows="5" placeholder=" Enter your list Esopide or only one ..."></textarea>
+        </div>
+        <div>
+            <label for="listEsopideStream">Esopide M3u8:</label>
+            <textarea name="listEsopideStream"
+                class="my-2 text-base font-medium py-1 px-3 bg-[#151F30] w-full scroll_settings" id="listEsopideStream"
+                rows="5" placeholder="Enter your list Esopide or only one ..."></textarea>
+        </div>
+        <div class="basis-full text-center">
+            <button type="submit"
+                class="py-2 px-3 rounded-xl bg-blue-700 text-gray-100 hover:bg-white hover:text-black ease-linear duration-100 sm:w-[200px] w-4/5">
+                PUSLISH
+            </button>
+        </div>
+    </form>
+    <script type="module" src="/js/addEsopide.js"></script>

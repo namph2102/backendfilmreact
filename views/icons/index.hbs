@@ -1,0 +1,86 @@
+<link rel="stylesheet" href="/style/catelog.css">
+<section class="flex flex-wrap items-center justify-between border-gray-600 border-b-[0.5px] pb-4 mb-3">
+    <h1 class="text-3xl font-semibold">
+        Icons <sub class="text-base"> <span id="total_item"> {{total}}</span> total</sub>
+        <button id="btn_add-icon"
+            class="py-2 px-3 text-sm rounded-xl bg-blue-700 text-gray-100 hover:bg-white hover:text-black ease-linear duration-100">
+            Add Icon
+        </button>
+    </h1>
+
+</section>
+<div class="infomation text-center text-red-500 capitalize"> {{#if error}} Lỗi: {{error}} {{/if}}</div>
+<div class="infomation text-center capitalize "> {{#if message}} Thông báo {{message}} {{/if}}</div>
+<!-- show payment -->
+<input type="text" hidden id="idPayment" value="{{id}}">
+<section class="block w-full">
+    <div class="scroll_settings">
+
+        <div id="icon" class="content_menu bg-[#131720]   w-full">
+            <div class="scroll_settings">
+                <table class="table w-full text-center p-2" id="table_container">
+                    <thead class="text-base font-bold text-slate-400">
+                        <tr>
+                            <td>Id</td>
+                            <td>Name</td>
+                            <td>Image</td>
+                            <td>
+                                <div class="my-3">Actions</div>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id="icon_container">
+                        <tr>
+                            <td>
+                                <div class="px-2">
+                                    <div class="animate-spin h-5 w-5"><i class="fa-solid fa-spinner"></i></div>
+                                    <p>Loading ...</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {{!-- <tr data-id="sadsdasaddsasdaads" data-index="2323"
+                            class="bg-[#151F30] border-y-[10px] border-[#131720] tr_item">
+                            <td>
+                                <div
+                                    class="lg:max-w-[200px] max-w-[80px] pt-3 overflow-auto whitespace-normal scroll_with-none px-2">
+                                    #asdsdasdasdasdsadsasasaddsasdada
+                                </div>
+                            </td>
+
+                            <td>
+                                <span class="admin capitalize">Đấu khí hóa cánh</span>
+                            </td>
+                            <td>
+                                <div class="flex justify-center">
+                                    <img width="40" height="40" class="object-cover"
+                                        src="https://movibes.online/icon/6367a34e8bc56-4.png" alt="" />
+                                </div>
+                            </td>
+
+                            <td class="btn_actions">
+                                <div class="min-w-[160px]">
+                                    <button class="btn_view">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                    <button class="btn_edit">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </button>
+                                    <button class="btn_delete">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr> --}}
+                    </tbody>
+                </table>
+            </div>
+            <div id="pagination" class="paginationjs">
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end show payment -->
+
+
+<script type="module" src="/js/icon.js"></script>

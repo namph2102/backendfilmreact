@@ -1,0 +1,196 @@
+<section class="flex justify-between border-gray-600 border-b-[0.5px] pb-4 mb-3">
+
+    <h1 class="text-3xl font-semibold">Dashboard</h1>
+    <a href="/catelog/additem">
+        <button
+            class="py-2 px-3 rounded-xl bg-blue-700 text-gray-100 hover:bg-white hover:text-black ease-linear duration-100">
+            ADD Item
+        </button>
+    </a>
+</section>
+
+<div class="statistics_container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 my-8">
+
+    <section class="statistics">
+        <h3>Total Views</h3>
+        <p class="flex justify-between">
+            <span class="text-xl font-bold"> {{totalViews}}</span><i class="fa-solid fa-eye text-blue-700 text-3xl"></i>
+        </p>
+    </section>
+    <section class="statistics">
+        <h3>Incomes</h3>
+        <p class="flex justify-between">
+            <span class="text-xl font-bold"> {{topupInMonth}} đ</span><i
+                class="fa-solid fa-coins text-yellow-700 text-3xl"></i>
+        </p>
+    </section>
+    <section class="statistics">
+        <h3>New Commemt</h3>
+        <p class="flex justify-between">
+            <span class="text-xl font-bold">{{totalComment}} </span><i
+                class="fa-solid fa-comment-medical text-blue-700 text-3xl"></i>
+        </p>
+    </section>
+    <section class="statistics">
+        <h3>New Account</h3>
+        <p class="flex justify-between">
+            <span class="text-xl font-bold"> {{totalAccount}}</span><i
+                class="fa-solid fa-user-plus text-blue-700 text-3xl"></i>
+        </p>
+    </section>
+</div>
+
+<div class="analysis grid grid-cols-1 lg:grid-cols-2 gap-3 my-8 overflow-x-hidden">
+    <section class="scroll_settings">
+        <div class="flex justify-between my-4 border-b-[0.5px] border-gray-700 py-2">
+            <h4>
+                <i class="fa-regular fa-chart-bar text-blue-800"></i> Top films
+            </h4>
+            <a href="/catelog"><button class="bg-slate-900 p-2 rounded-sm hover:text-slate-500 text-sm">
+                    View all
+                </button></a>
+        </div>
+        <table class="w-full text-center">
+            <thead>
+                <tr class="text-lg text-gray-400 font-bold">
+                    <td>Id</td>
+                    <td>Like</td>
+                    <td>Views</td>
+                    <td> Star</td>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each listFilmTop}}
+                <tr>
+                    <td class=" max-w-[60px] overflow-auto scroll_with-none">
+                        #{{this._id}}
+                    </td>
+                    <td> {{this.like}}</td>
+                    <td> {{this.view}}</td>
+                    <td> <i class="fa-solid fa-star text-yellow-600"></i> <span
+                            class="inline-block min-w-[20px]">{{this.star}}</span> </td>
+                </tr>
+                {{/each}}
+
+            </tbody>
+        </table>
+    </section>
+    <section class="scroll_settings">
+        <div class="flex justify-between my-4 border-b-[0.5px] border-gray-700 py-2">
+            <h4>
+                <i class="fa-solid fa-table-cells-large text-blue-800"></i>
+                Latest films
+            </h4>
+            <a href="/catelog"><button class="bg-slate-900 p-2 rounded-sm hover:text-slate-500 text-sm">
+                    View all
+                </button></a>
+        </div>
+        <table class="w-full text-center">
+            <thead>
+                <tr class="text-lg text-gray-400 font-bold">
+                    <td>Id</td>
+                    <td>Like</td>
+                    <td>Views</td>
+                    <td> Star</td>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each listLastFilm}}
+                <tr>
+                    <td class=" max-w-[60px] overflow-auto scroll_with-none">
+                        <div class="whitespace-nowrap "> #{{this._id}}</div>
+                    </td>
+                    <td>
+                        <div class="whitespace-nowrap ">{{this.like}}</div>
+                    </td>
+                    <td>
+                        <div class="whitespace-nowrap ">{{this.view}}</div>
+                    </td>
+                    <td>
+                        <div class="whitespace-nowrap "> <i class="fa-solid fa-star text-yellow-600"></i> <span
+                                class="inline-block min-w-[20px]"> {{this.star}}</span>
+                        </div>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </section>
+    <section class="scroll_settings">
+        <div class="flex justify-between my-4 border-b-[0.5px] border-gray-700 py-2">
+            <h4>
+                <i class="fa-solid fa-user-clock text-green-600"></i> Top users
+            </h4>
+            <a href="/user"><button class="bg-slate-900 p-2 rounded-sm hover:text-slate-500 text-sm">
+                    View all
+                </button></a>
+        </div>
+        <table class="w-full text-center">
+            <thead>
+                <tr class="text-lg text-gray-400 font-bold">
+                    <td>Id</td>
+                    <td>Name Level</td>
+                    <td>Vip</td>
+                    <td>Coin</td>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each TopUser}}
+                <tr>
+                    <td class=" max-w-[60px] overflow-auto scroll_with-none">
+                        <div class="mx-2"> {{this._id}}</div>
+                    </td>
+                    <td>
+                        <div class="whitespace-nowrap px-2">{{this.nameLevel.name}}</div>
+                    </td>
+                    <td>
+                        <div class="whitespace-nowrap px-2">Vip {{this.vip}}</div>
+                    </td>
+                    <td>
+                        <div class="whitespace-nowrap px-2"> <i class="fa-solid fa-coins text-yellow-400"></i>
+                            {{this.coin}}</div>
+                    </td>
+                </tr>
+                {{/each}}
+
+
+            </tbody>
+        </table>
+    </section>
+    <section class="max-h-[300px] overflow-auto topup_Container ">
+        <div class="flex justify-between my-4 border-b-[0.5px] border-gray-700 py-2">
+            <h4><i class="fa-solid fa-coins text-yellow-500"></i> Top Up</h4>
+            <a href="/topup/show"><button class="bg-slate-900 p-2 rounded-sm hover:text-slate-500 text-sm">
+                    View all
+                </button></a>
+        </div>
+        <table class="w-full text-center  ">
+            <thead>
+                <tr class="text-lg text-gray-400 font-bold">
+                    <td>ID</td>
+                    <td>Kind</td>
+                    <td>Money</td>
+                    <td>CreateAt</td>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each TopUp}}
+                <tr>
+                    <td class="  max-w-[60px] overflow-auto scroll_with-none ">
+                        <div class="mx-2"> #{{this._id}}</div>
+                    </td>
+                    <td>
+                        <div class="min-w-[120px] capitalize"> {{#if this.nameWallet}} {{ this.nameWallet}} {{else}} {{
+                            this.nameBank}}{{/if}}</div>
+                    </td>
+                    <td>
+                        <div class="whitespace-nowrap px-2">{{this.money}} đ</div>
+                    </td>
+                    <td>{{this.createdAt}}</td>
+                </tr>
+                {{/each}}
+
+            </tbody>
+        </table>
+    </section>
+    <script type="module" src="/js/style.module.js"></script>

@@ -1,0 +1,85 @@
+<link rel="stylesheet" href="/style/catelog.css">
+<section class="flex flex-wrap items-center justify-between border-gray-600 border-b-[0.5px] pb-4 mb-3">
+    <h1 class="text-3xl font-semibold">
+        Country <sub class="text-base"> <span id="total_item"> {{total}}</span> total</sub>
+        <button id="btn_add-country"
+            class="py-2 px-3 text-sm rounded-xl bg-blue-700 text-gray-100 hover:bg-white hover:text-black ease-linear duration-100">
+            Add Country
+        </button>
+    </h1>
+
+
+</section>
+<div class="infomation text-center text-red-500 capitalize"> {{#if error}} Lỗi: {{error}} {{/if}}</div>
+<div class="infomation text-center capitalize "> {{#if message}} Thông báo {{message}} {{/if}}</div>
+<!-- show payment -->
+<input type="text" hidden id="idPayment" value="{{id}}">
+<section class="block w-full">
+    <div class="scroll_settings">
+        {{#if id}}
+        <style>
+            #payment_container tr:first-child {
+                background-color: #585c33;
+            }
+        </style>
+        {{/if}}
+        <div id="payment" class="content_menu bg-[#131720]   w-full">
+            <div class="scroll_settings">
+                <table class="table w-full text-center" id="table_container">
+                    <thead class="text-base font-bold text-slate-400">
+                        <tr>
+                            <td>Id</td>
+                            <td>Country</td>
+                            <td>Slug</td>
+                            <td>
+                                <div class="my-3">Actions</div>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id="country">
+                        <tr>
+                            <td>
+                                <div class="px-2">
+                                    <div class="animate-spin h-5 w-5"><i class="fa-solid fa-spinner"></i></div>
+                                    <p>Loading ...</p>
+                                </div>
+                            </td>
+                        </tr>
+                        {{!-- <tr class="bg-[#151F30] border-y-[10px] border-[#131720]">
+                            <td>
+                                <div class="max-w-[80px] overflow-auto scroll_with-none mt-4 mx-2">
+                                    #asdsdasdasda
+                                </div>
+                            </td>
+                            <td>
+                                <div class="py-4 mt-2 min-w-fit whitespace-nowrap px-4">
+                                    I Dream in Another Language
+                                </div>
+                            </td>
+                            <td>
+                                <div class="py-4 mt-2 min-w-fit whitespace-nowrap px-4">
+                                    hoai-nam-dsa
+                                </div>
+                            </td>
+                            <td class="btn_actions">
+                                <div class="min-w-[160px]">
+                                    <button class="btn_edit">
+                                        <i class="fa-solid fa-pencil"></i>
+                                    </button>
+                                    <button class="btn_delete">
+                                        <i class="fa-solid fa-trash-can"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr> --}}
+                    </tbody>
+                </table>
+            </div>
+            <div id="pagination" class="paginationjs">
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end show payment -->
+<script type="module" src="/js/country.js"></script>

@@ -1,0 +1,95 @@
+<section class="w-full flex items-center justify-between px-4 md:hidden">
+    <figure>
+        <a href="/"> <img class="max-w-[200px]" src="/images/logo.png" alt="" /></a>
+    </figure>
+    <button id="btn_menu" class="btn_effect">
+        <span></span><span></span><span></span>
+    </button>
+</section>
+<!-- Header -->
+<header id="header_container"
+    class="px-4 border-r-[0.5px] border-gray-600 min-h-screen fixed menu_mobile md:relative md:basis-1/6 top-0 left-0 bg-gray-900 ">
+    <figure class="mb-3">
+        <a href="/"> <img class="max-w-[200px]" src="/images/logo.png" alt="" /></a>
+    </figure>
+
+    <nav class="nav_menu">
+        <ul>
+            <li>
+                <a class="{{#if dashboard}}active{{/if}}" href="/">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li>
+                <a class="{{#if catelogpage}}active {{/if}}" href="/catelog">
+                    <i class="fa-solid fa-table-cells-large"></i>
+                    <span>Catelog Film</span>
+                </a>
+            </li>
+
+            <li>
+                <a class="{{#if user}}active{{/if}}" href="/user">
+                    <i class="fa-solid fa-user-group"></i>
+                    <span>User</span>
+                </a>
+            </li>
+            <li>
+                <a class="{{#if topup}}active{{/if}}" href="/topup/show">
+                    <i class="fa-solid fa-coins"></i>
+                    <span>Top Up </span>
+                </a>
+            </li>
+            <li>
+                <a class="{{#if countrypage}}active{{/if}}" href="/country/show">
+                    <i class="fa-solid fa-earth-oceania"></i>
+                    <span>Country</span>
+                </a>
+            </li>
+            <li>
+                <a class="{{#if categorypage}}active{{/if}}" href="/category/show">
+                    <i class="fa-solid fa-book"></i>
+                    <span>Category</span>
+                </a>
+            </li>
+            <li>
+                <a class="{{#if icon}}active{{/if}}" href="/icon/show">
+                    <i class="fa-solid fa-icons"></i>
+                    <span>Icon</span>
+                </a>
+            </li>
+            <li>
+                <a class="{{#if comment}}active{{/if}}" href="/comment/show">
+                    <i class="fa-regular fa-comment"></i>
+                    <span>Comment</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <section id="info_admin" class="border-y-[0.5px] border-gray-600 py-4 hideElement ease-in duration-300">
+        <div class="flex justify-between">
+            <figure class="flex gap-2">
+                <img class="w-10 h-10 object-cover rounded-xl" id="header_avata" src="/images/ixv44kklgnim7ve.png"
+                    alt="" />
+                <figcaption>
+                    <p id="header_permission"
+                        class="max-w-[100px] capitalize text-ellipsis overflow-hidden whitespace-nowrap">
+                        Admin
+                    </p>
+                    <p id="header_fullname"
+                        class="max-w-[100px] capitalize  text-sm text-ellipsis overflow-hidden whitespace-nowrap">Hoài
+                        Nam</p>
+                </figcaption>
+            </figure>
+            <a href="/admin/logout">
+                <button
+                    class="hover:bg-white hover:text-black ease-in duration-150 rounded-lg py-2 px-3 bg-gray-600 text-white">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </button>
+            </a>
+        </div>
+    </section>
+</header>
+<!-- end Header -->
+
+<script type="module" src="/js/header.js"></script>

@@ -1,0 +1,130 @@
+
+POST http://localhost:3000/filmdetail/addListFilm
+Content-Type: application/json
+
+{
+    "idFilm":"642442a5a9ac56f68863b216",
+    "embed":"10|https://hd.1080phim.com/share/dbd456d85889141a5bca8a0b51abcd7a*9|https://hd.1080phim.com/share/e774f82167847c35a60e178a4861f7ac*8|https://hd.1080phim.com/share/9be7eaf5887dcb7227031f81b6fb4005*7|https://hd.1080phim.com/share/c36c440058793ea4dc91347ea01c6727*6|https://hd.1080phim.com/share/9a8d7eb7879dca0954771f50f440b591*5|https://hd.1080phim.com/share/907353eab452f43367a8c29311399935*4|https://hd.1080phim.com/share/543f36cbc029e57fb098cead9cec5cb6*3|https://hd.1080phim.com/share/3a2f70457fa690a6eff27ac5c8abed30*2|https://hd.1080phim.com/share/daa5e517f68aaa2f2a97cf493d4bac62*1|https://hd.1080phim.com/share/fd1598a65266df285d091d86411249df",
+    "m3u8":"10|https://hd.1080phim.com/20230406/37438_0b487bf2/index.m3u8*9|https://hd.1080phim.com/20230406/37437_425ddcfb/index.m3u8*8|https://hd.1080phim.com/20230406/37436_d1aafa17/index.m3u8*7|https://hd.1080phim.com/20230406/37435_e409795c/index.m3u8*6|https://hd.1080phim.com/20230406/37434_9228da6d/index.m3u8*5|https://hd.1080phim.com/20230406/37433_f2bd5a03/index.m3u8*4|https://hd.1080phim.com/20230406/37432_e4ab7941/index.m3u8*3|https://hd.1080phim.com/20230406/37431_9305a6ec/index.m3u8*2|https://hd.1080phim.com/20230406/37430_37b4c16b/index.m3u8*1|https://hd.1080phim.com/20230406/37429_f5cc4f96/index.m3u8"
+}
+###
+POST http://localhost:3000/filmdetail
+Content-Type: application/json
+
+{
+"slug":"sequi-nobis-qui-cumfdsrfdsdfs."
+}
+
+###
+POST http://localhost:3000/bookmark
+Content-Type: application/json
+
+{
+"data":{
+  "username":"namanhthao58@gmails.com"
+}
+}
+
+###
+POST http://localhost:3000/bookmark/addbookmark
+Content-Type: application/json
+
+{
+"data":{
+  "username":"namanhthao58@gmails.com",
+  "item":{
+    "name":"c",
+    "slug":"dsaddsad ssa",
+    "avata":"fdaafsdfdadafadf"
+  }
+}
+}
+
+
+###
+POST http://localhost:3000/user/information
+Content-Type: application/json
+
+{
+  "data":{
+    "idUser":"643e094c8f0c03dbd6c658c5"
+  }
+}
+
+
+###
+POST http://localhost:3000/icon/addIcon
+Content-Type: application/json
+
+{
+  "data":{
+    "title":"Dị Hỏa",
+    "link":"https://movibes.online/icon/6367a3625be2f-6.gif"
+  }
+}
+### Exp
+POST http://localhost:3000/exp/addexplv
+Content-Type: application/json
+
+{
+  "data":{
+    "name":"Chí Tôn Tiên Đế",
+    "musty":1000000
+  }
+}
+###
+POST http://localhost:3000/exp/addExpVip
+Content-Type: application/json
+
+{
+  "data":{
+    "name":"Vip 10",
+    "musty":60000,
+    "level":10
+  }
+}
+
+###
+POST http://localhost:3000/bookmark/deletebookmark
+Content-Type: application/json
+
+{
+   "data":{
+  "username":"namanhthao58@gmails.com",
+   "name":"c"
+    }
+}
+
+###
+POST http://localhost:3000/api/updateLike
+Content-Type: application/json
+
+{
+ "data":{
+    "idFilm":"642442a5a9ac56f68863b216"
+ }
+}
+
+
+### add icon
+POST http://localhost:3000/icon/addIconTouser
+Content-Type: application/json
+
+{
+ "data":{
+    "idIcon":"643df81b68bded922ee08353",
+    "idUser":"643e0f08a0c5f14b512d40dc"
+ }
+}
+
+
+                
+### add category
+POST http://localhost:3000/category/addcate
+Content-Type: application/json
+
+{
+ "data":{
+    "category":"                   Bí Ẩn "
+ }
+}

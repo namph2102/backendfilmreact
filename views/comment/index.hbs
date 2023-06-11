@@ -1,0 +1,82 @@
+<link rel="stylesheet" href="/style/catelog.css">
+<section class="flex flex-wrap items-center justify-between border-gray-600 border-b-[0.5px] pb-4 mb-3">
+    <h1 class="text-3xl font-semibold">
+        Comment <sub class="text-base"> <span id="total_item"> {{total}}</span> total</sub>
+
+    </h1>
+
+</section>
+<div class="infomation text-center text-red-500 capitalize"> {{#if error}} Lỗi: {{error}} {{/if}}</div>
+<div class="infomation text-center capitalize "> {{#if message}} Thông báo {{message}} {{/if}}</div>
+<!-- show payment -->
+<input type="text" hidden id="idPayment" value="{{id}}">
+<section class="block w-full">
+    <div class="scroll_settings">
+        {{#if id}}
+        <style>
+            #payment_container tr:first-child {
+                background-color: #585c33;
+            }
+        </style>
+        {{/if}}
+        <div id="comment" class="content_menu bg-[#131720]   w-full">
+            <div class="scroll_settings">
+                <table class="table w-full text-center p-2" id="table_container">
+                    <thead class="text-base font-bold text-slate-400">
+                        <tr>
+                            <td>
+                                <div class="whitespace-nowrap px-2">Id</div>
+                            </td>
+                            <td>
+                                <div class="whitespace-nowrap px-2">Author</div>
+                            </td>
+                            <td>
+                                <div class="whitespace-nowrap px-2">Text</div>
+                            </td>
+                            <td>
+                                <div class="whitespace-nowrap px-2">Total Reply</div>
+                            </td>
+                            <td>
+                                <div class="whitespace-nowrap px-2">Like</div>
+                            </td>
+                            <td>
+                                <div class="whitespace-nowrap px-2">
+                                    Editor
+                                </div>
+                            </td>
+                            <td>
+                                <div class="whitespace-nowrap px-2">Created Date</div>
+                            </td>
+                            <td colspan="2
+                  ">
+                                <div class="my-3">Actions</div>
+                            </td>
+                        </tr>
+                    </thead>
+                    <tbody id="comment_body">
+                        <tr>
+
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="px-2">
+                                    <div class="animate-spin h-5 w-5"><i class="fa-solid fa-spinner"></i></div>
+                                    <p>Loadding ...</p>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+            <div id="paginacomment" class="paginationjs">
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end show payment -->
+
+
+
+<script type="module" src="/js/comment.js"></script>

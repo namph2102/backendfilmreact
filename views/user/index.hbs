@@ -1,0 +1,160 @@
+<link rel="stylesheet" href="/style/catelog.css">
+<section class="flex flex-wrap items-center justify-between border-gray-600 border-b-[0.5px] pb-4 mb-3">
+    <h1 class="text-3xl font-semibold">
+        Users <sub class="text-base"> <span id="total_item">
+                0</span> total</sub>
+
+    </h1>
+    {{!-- Sort --}}
+    <div class="flex items-center ml-auto relative">
+        <section>
+            <p class="text-sm">Sort by:</p>
+            <div class="flex relative">
+                <button class="text-base font-semibold">Filter</button>
+                <button class="btn_effect min-w-[60px] h-[40px]" id="btn_filter">
+                    <span></span><span class="hideElement"></span>
+                    <span></span>
+                </button>
+                <nav class="absolute top-full z-[2] right-0">
+                    <ul id="sort_container"
+                        class="font-semibold text-slate-300 px-2 hideElement cursor-pointer min-w-[150px] bg-slate-900 py-3 rounded-2xl">
+                        <li data-name="quyền hạn" data-type="permission" data-kind="permission">Permission </li>
+                        <li data-name="số tiền nạp " class="active" data-kind="coin">Coin </li>
+                        <li data-name="bậc vip" data-kind="vip">Level Vip </li>
+                        <li data-type="time" data-name="thời gian tạo" data-kind="createdAt">CreatedAt</li>
+                        <li data-type="time" data-name="thời gian Chỉnh sửa" data-kind="updatedAt">UpdatedAt</li>
+                    </ul>
+                </nav>
+            </div>
+        </section>
+    </div>
+    {{!-- end sort --}}
+    <!-- search -->
+    <div id="search_box"
+        class="bg-[#151f30] rounded-full ease-in duration-200 flex items-center w-full lg:mt-0 lg:w-[350px] relative">
+        <input type="text" id="search" class="bg-none outline-none flex-1 py-2 pl-4 rounded-full  bg-[#151f30]  "
+            placeholder="Find username, fullname ,permission / or Id ..." required />
+        <button id="btn_search" class="px-4">
+            <i class="fa-solid fa-magnifying-glass text-blue-600 hover:text-blue-700"></i>
+        </button>
+        <section id="result_container" class="absolute top-full w-full z-[1] overflow-auto hidden">
+            <h5 class="bg-gray-800 p-2">
+                Tìm kiếm với ký tự:
+                <span id="input_keyword" class="text-red-600">dsadsasad</span>
+            </h5>
+            <div class="result_search bg-black scroll_settings max-h-[300px] shadow shadow-[#435858]">
+                <ul id="search_content">
+                    <li>
+                        <a class="block p-1 hover:bg-slate-950" href="http://">
+                            <figure class="flex gap-x-2">
+                                <img src="http://flixtv.volkovdesign.com/admin/img/user.svg" width="40" height="40"
+                                    class="object-cover" alt="Hoài Nam" />
+                                <figcaption>
+                                    <div class="flex flex-col">
+                                        <span class="text-base hover:text-yellow-400">
+                                            Hoài Nam</span>
+                                        <span class="text-sm">Admin</span>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="block p-1 hover:bg-slate-950" href="http://">
+                            <figure class="flex gap-x-2">
+                                <img src="https://movibes.online/avata/636939627d4a2-thon-phe-tinh-khong-thumb.jpg"
+                                    width="40" height="80" class="object-cover" alt="Hoài Nam" />
+                                <figcaption>
+                                    <div class="flex flex-col">
+                                        <span class="text-base hover:text-yellow-400">
+                                            Hoài Nam</span>
+                                        <span class="text-sm">member</span>
+                                    </div>
+                                </figcaption>
+                            </figure>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </div>
+    <!-- end search -->
+</section>
+<div class="infomation text-center text-red-500 capitalize"> {{#if error}} Lỗi: {{error}} {{/if}}</div>
+<div class="infomation text-center capitalize "> {{#if error}} Thông báo {{error}} {{/if}}</div>
+
+<section class="block w-full">
+    <div class="scroll_settings">
+        <table class="table w-full text-center" id="table_container">
+            <thead class="text-base font-bold text-slate-400">
+                <tr>
+                    <td>Id</td>
+                    <td>Basic info</td>
+                    <td>Permission</td>
+                    <td>Icon</td>
+                    <td>Coin</td>
+                    <td>Update Date</td>
+                    <td>
+                        <div class="my-3">Actions</div>
+                    </td>
+                </tr>
+            </thead>
+            <tbody id="listItem_container">
+                <tr>
+                    <td>
+                        <div class="px-2">
+                            <div class="animate-spin h-5 w-5"><i class="fa-solid fa-spinner"></i></div>
+                            <p>Loading ...</p>
+                        </div>
+                    </td>
+                </tr>
+                {{!-- <tr class="bg-[#151F30] border-y-[10px] border-[#131720]">
+                    <td>
+                        <div class="max-w-[80px] overflow-auto scroll_with-none mt-4 mx-2">
+                            #asdsdasdasda
+                        </div>
+                    </td>
+                    <td>
+                        <div class="py-4 mt-2 min-w-fit whitespace-nowrap px-4 flex items-center">
+                            <img src="http://flixtv.volkovdesign.com/admin/img/user.svg" width="40" height="40"
+                                class="rounded-full" alt="" />
+                            <div class="text-left pl-2">
+                                <p>Fullname</p>
+                                <p>namanhthao9@gmail.com</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td><span class="admin capitalize">admin</span></td>
+                    <td>
+                        <div class="px-2">10</div>
+                    </td>
+                    <td>
+                        <div class="px-2 whitespace-nowrap">15,000,000</div>
+                    </td>
+                    <td>20/12/2023</td>
+                    <td class="btn_actions">
+                        <div class="min-w-[160px]">
+                            <button class="btn_lock">
+                                <i class="fa-solid fa-lock"></i>
+                            </button>
+                            <button class="btn_view">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <button class="btn_edit">
+                                <i class="fa-solid fa-pencil"></i>
+                            </button>
+                            <button class="btn_delete">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+                        </div>
+                    </td>
+                </tr> --}}
+            </tbody>
+        </table>
+    </div>
+
+    <div id="pagination" class="paginationjs flex justify-between">
+
+    </div>
+</section>
+<script type="module" src="/js/user.js"></script>

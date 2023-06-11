@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/style/style.css" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+        integrity="sha512-xh6O/CkQoPOWDdYTDqeRdPCVd1SpvCA9XXcUnZS2FmJNp1coAFzvtCN9BmamE+4aHK8yyUHUSCcJHgXloTyT2A=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+
+
+
+    {{!-- mobiscroll --}}
+    <link href="/style/mobiscroll.javascript.min.css" rel="stylesheet" />
+    <script defer src="/js/mobiscroll.javascript.min.js"></script>
+    {{!-- end mobiscroll --}}
+    {{!-- jquery --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js"
+        integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {{!-- end jquery --}}
+    {{!-- moment --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment-with-locales.min.js"
+        integrity="sha512-42PE0rd+wZ2hNXftlM78BSehIGzezNeQuzihiBCvUEB3CVxHvsShF86wBWwQORNxNINlBPuq7rG4WWhNiTVHFg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    {{#if title}} <title>{{title}}</title> {{else}} <title>VideoTV - Admin</title>{{/if}}
+
+</head>
+
+<body>
+
+    <div class="app flex text-text font-sans flex-wrap md:flex-nowrap">
+        {{>header}}
+        <main class="md:basis-5/6 basis-full sm:px-8 px-2 py-4 overflow-x-auto overflow-y-hidden">
+            {{{body}}}
+        </main>
+
+    </div>
+
+    <!-- Modal status  id modal_status if have  hideElement -> hidden else show -->
+    <div id="modal_status" class="modal fixed inset-0 h-screen flex hideElement bg-[rgba(0,0,0,0.6)]">
+        <section
+            class="max-w-[400px] min-h-[200px] max-h-[400px] rounded-2xl p-7 bg-[#151F30] m-auto relative modal-content">
+            <h6 class="modal__title text-3xl text-center font-semibold pb-3">
+                Thông báo
+            </h6>
+            <p class="modal__message text-sm text-center">
+                Are you sure about immediately change status?
+            </p>
+            <div class="modal__btns mt-4 flex gap-3">
+                <button
+                    class="modal__btn--apply min-w-[160px] bg-[#2f80ed] hover:text-green-700 hover:bg-[#fff] py-2 rounded-2xl text-base h-10"
+                    type="button">
+                    Đồng ý
+                </button>
+                <button
+                    class="modal__btn--dismiss btn_close-modal min-w-[160px] bg-gray-700 hover:text-red-400 py-2 rounded-2xl text-base h-10"
+                    type="button">
+                    Hủy
+                </button>
+            </div>
+            <button title="Close (Esc)" type="button"
+                class="absolute -top-2 right-1 text-4xl hover:text-red-500 btn_close-modal">
+                ×
+            </button>
+        </section>
+    </div>
+    <!-- End Modal -->
+    <!-- Modal status  id modal_status if have class flex -> show else  hidden -> hide -->
+    <div id="modal_views" class="modal fixed inset-0 flex hideElement bg-[rgba(0,0,0,0.6)]">
+        <section id="modal_views-container"
+            class="min-h-[30vh] rounded-2xl p-7 bg-[#131720] shadow shadow-[#435858] m-auto relative scroll_settings modal-content max-h-screen">
+            <h6 class="text-center pb-4 text-2xl">Thông tin chi tiết</h6>
+            <figure class="flex flex-col items-center mb-4">
+                <a href="http://">
+                    <img class="w-[50px] object-cover"
+                        src="https://movibes.online/avata/636939627d4a2-thon-phe-tinh-khong-thumb.jpg" alt="" />
+                </a>
+                <figcaption class="text-sm">Thôn phệ tinh không</figcaption>
+            </figure>
+            <article class="grid grid-cols-2 gap-2">
+                <div>
+                    <span class="px-2">Id:</span>
+                    <div>
+                        <input class="input_style style_text-nomarl w-full" readonly value="#dsadsadsadsasdadsa" />
+                    </div>
+                </div>
+                <div>
+                    <span class="px-2">Origin Name:</span>
+                    <div>
+                        <input class="input_style w-full" readonly value="SADsadsa dsadsa" />
+                    </div>
+                </div>
+                <div class="col-span-2">
+                    <span class="px-2">Category:</span>
+                    <div class="modal_views-category">
+                        <span>Hành động</span>
+                        <span>Phiêu Lưu</span>
+                        <span>Xuyên Không</span>
+                        <span>Hài Kịch</span>
+                        <span>Phiêu Lưu</span>
+                        <span>Xuyên Không</span>
+                        <span>Hài Kịch</span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-3 gap-2 col-span-2">
+                    <div>
+                        <span class="px-2">Kind:</span>
+                        <div>
+                            <input class="input_style w-full" readonly value="Fearture" />
+                        </div>
+                    </div>
+                    <div>
+                        <span class="px-2">Views:</span>
+                        <div>
+                            <input class="input_style w-full" readonly value="12,000,000" />
+                        </div>
+                    </div>
+                    <div>
+                        <span class="px-2">Like:</span>
+                        <div>
+                            <input class="input_style w-full" readonly value="15,000,000" />
+                        </div>
+                    </div>
+                    <div>
+                        <span class="px-2">time:</span>
+                        <div>
+                            <input class="input_style w-full" readonly value="15 phút" />
+                        </div>
+                    </div>
+                    <div>
+                        <span class="px-2">Years:</span>
+                        <div>
+                            <input class="input_style w-full" readonly value="2000" />
+                        </div>
+                    </div>
+                    <div>
+                        <span class="px-2">Status:</span>
+                        <div>
+                            <input class="input_style w-full" readonly value="Compelete" />
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <span class="px-2">CreateAt:</span>
+                    <div>
+                        <input class="input_style w-full" readonly value="23/04/2023" />
+                    </div>
+                </div>
+                <div>
+                    <span class="px-2">UpdateAt:</span>
+                    <div>
+                        <input class="input_style w-full" readonly value="25/05/2024" />
+                    </div>
+                </div>
+            </article>
+            <button title="Close (Esc)" type="button"
+                class="absolute -top-2 right-1 text-4xl hover:text-red-500 btn_close-modal">
+                ×
+            </button>
+        </section>
+    </div>
+    <!-- End Modal -->
+
+</body>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script type="text/javascript" src="https://pagination.js.org/dist/2.6.0/pagination.min.js"></script>
+
+
+
+</html>
