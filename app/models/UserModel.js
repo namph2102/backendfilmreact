@@ -23,7 +23,7 @@ const UserModel = new Shema(
     coin: { type: Number, default: 0 },
     description: { type: String, default: "" },
     vip: { type: Number, default: 0 },
-    // icons: { type: Array, default: [] },
+    path: { type: String, defaultValue: "" },
     icons: [{ type: mongoose.Schema.Types.ObjectId, ref: "icons" }],
     accessToken: { type: String, required: true },
     refreshToken: { type: String, required: true },

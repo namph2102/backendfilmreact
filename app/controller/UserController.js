@@ -11,6 +11,7 @@ const UserUpdate = require("../utils/UserUtil");
 const CommentModel = require("../models/CommemtModel");
 const TopUpModel = require("../models/TopupModel");
 const BookMarkModel = require("../models/BookMarkModel");
+const { default: CloudinaryServices } = require("../../services");
 
 class UserController {
   async login(req, res) {
@@ -64,40 +65,51 @@ class UserController {
     }
   }
   async handleWithFireBase(req, res) {
-    const { uid, username, fullname, phone, avata } = req.body.account;
-    const isCheckAccount = await UserModel.findOne({ uid }).populate("icons");
+    try {
+      const { uid, avata, fullname, type } = req.body.account;
 
-    if (!isCheckAccount) {
-      const accessToken = jwt.sign(
-        { username },
-        process.env.ACCESS_TOKEN_SECRET
-      );
-      const refreshToken = jwt.sign(
-        { username },
-        process.env.REFRESH_TOKEN_SECRET
-      );
-      const password = await argon2.hash(process.env.FISEBASE_PASSWORD);
-      const newaccount = {
-        ...req.body.account,
-        password,
-        accessToken,
-        refreshToken,
-      };
-      const creatAccount = await UserModel.create(newaccount);
-      return res.status(200).json({
-        success: true,
-        status: 200,
-        message: "Đăng nhập thành công !",
-        account: creatAccount,
-      });
+      if (!uid) throw new Error("Lỗi Đăng nhập nhanh");
+      const isCheckAccount = await UserModel.findOne({ uid }).populate("icons");
+      if (type == "login") {
+        if (!isCheckAccount) {
+          throw new Error("Tài khoản chưa đăng ký");
+        } else {
+          return res.status(200).json({
+            status: 200,
+            message: "Đăng nhập thành công",
+            data: isCheckAccount,
+          });
+        }
+      } else {
+        if (isCheckAccount) {
+          throw new Error("Tài khoản đã được đăng ký");
+        }
+        const username = uid.slice(0, 10);
+        const password = await argon2.hash(username);
+        const accessToken =
+          jwt.sign({ username }, process.env.ACCESS_TOKEN_SECRET) || uid;
+        const refreshToken =
+          jwt.sign({ username }, process.env.REFRESH_TOKEN_SECRET) || uid;
+        const newAccount = await UserModel.create({
+          username,
+          password,
+          uid,
+          avata,
+          fullname,
+          accessToken,
+          refreshToken,
+        });
+
+        res.status(200).json({
+          data: newAccount,
+          status: 200,
+          message: "Tạo tài khoản thành công !",
+        });
+        return;
+      }
+    } catch (err) {
+      res.status(200).json({ status: 201, message: err?.message, data: {} });
     }
-    return res.status(200).json({
-      success: true,
-      status: 202,
-      notice: "Tài khoản có sẳn trong database",
-      message: "Đăng nhập thành công !",
-      account: isCheckAccount,
-    });
   }
 
   async getInformation(req, res) {
@@ -193,7 +205,8 @@ class UserController {
     } catch (err) {}
   }
   async updateAvatarUser(req, res) {
-    let { _id, avata } = req.body.data;
+    let { _id, avata, path } = req.body.data;
+
     try {
       if (!_id) {
         throw new Error("Dữ liệu chưa đầy đủ");
@@ -201,19 +214,14 @@ class UserController {
       const checkAccount = await UserModel.findById({ _id });
       if (!checkAccount) {
         throw new Error("Tài khoản không tồn tại");
-      } else UserUpdate.removeImage(checkAccount.avata);
+      }
+      if (checkAccount.path) {
+        CloudinaryServices.deleteFileImage(checkAccount.path);
+      }
+      await UserModel.findByIdAndUpdate({ _id }, { avata, path });
 
-      const filename = uniqid() + ".png";
-      const filepath = path.join("public", "uploads", filename);
-      var base64Data = avata.replace(/^data:image\/png;base64,/, "");
-      const linkavata = UserUpdate.plusLinkImage(filename);
-      fs.writeFile(filepath, base64Data, "base64", async function (err) {
-        if (err) throw new Error("Upload ảnh không thành công");
-        console.log(linkavata);
-        await UserModel.findByIdAndUpdate({ _id }, { avata: linkavata });
-        res.status(200).json({
-          message: "oke",
-        });
+      res.status(200).json({
+        message: "Thay đổi ảnh đại diện thành công",
       });
     } catch (err) {
       res.status(404).json({ message: err.message });

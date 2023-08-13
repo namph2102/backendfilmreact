@@ -1,29 +1,7 @@
 const express = require("express");
 const Routers = express.Router();
 const UserController = require("../app/controller/UserController");
-const multer = require("multer");
-const uniqid = require("uniqid");
-const path = require("path");
 
-const storage = multer.diskStorage({
-  destination: function (req, file, cb) {
-    if (file) {
-      cb(null, path.join("public", "uploads"));
-    }
-  },
-  filename: function (req, file, cb) {
-    if (file) {
-      cb(
-        null,
-        uniqid.time() +
-          Math.floor(Math.random() * 5555) +
-          path.extname(file.originalname)
-      );
-    }
-  },
-});
-
-const upload = multer({ storage: storage });
 const {
   authResgisther,
   authLogin,

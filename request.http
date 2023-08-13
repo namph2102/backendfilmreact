@@ -8,11 +8,14 @@ Content-Type: application/json
     "m3u8":"10|https://hd.1080phim.com/20230406/37438_0b487bf2/index.m3u8*9|https://hd.1080phim.com/20230406/37437_425ddcfb/index.m3u8*8|https://hd.1080phim.com/20230406/37436_d1aafa17/index.m3u8*7|https://hd.1080phim.com/20230406/37435_e409795c/index.m3u8*6|https://hd.1080phim.com/20230406/37434_9228da6d/index.m3u8*5|https://hd.1080phim.com/20230406/37433_f2bd5a03/index.m3u8*4|https://hd.1080phim.com/20230406/37432_e4ab7941/index.m3u8*3|https://hd.1080phim.com/20230406/37431_9305a6ec/index.m3u8*2|https://hd.1080phim.com/20230406/37430_37b4c16b/index.m3u8*1|https://hd.1080phim.com/20230406/37429_f5cc4f96/index.m3u8"
 }
 ###
-POST http://localhost:3000/filmdetail
+POST http://localhost:3000/uploadfile
+
+###
+POST http://localhost:3000/deleteimage
 Content-Type: application/json
 
 {
-"slug":"sequi-nobis-qui-cumfdsrfdsdfs."
+  "path":"aooyon6hp13tfs36gz4v"
 }
 
 ###

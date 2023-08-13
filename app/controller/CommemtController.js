@@ -23,10 +23,16 @@ class CommemtController {
         id_film: idFilm,
         level: 0,
       })
-        .populate({ path: "user_comment" })
+        .populate({
+          path: "user_comment",
+          select:
+            "blocked username fullname  avata icons createdAt  updatedAt level permission vip",
+          populate: {
+            path: "icons",
+          },
+        })
         .limit(limit)
         .sort({ updatedAt: -1 });
-
       listCommemt = await CommemtController.getListIconSub(listCommemt);
       if (listCommemt.length > 0) {
         res.status(200).json({
@@ -42,14 +48,13 @@ class CommemtController {
           .json({ data: [], status: 203, message: "Not have commet !" });
       }
     } catch (err) {
-      console.log(err.message);
+      console.log(err);
       res
         .status(200)
-        .json({ status: 404, data: [], message: "Cant not founded" });
+        .json({ status: 404, data: [], message: "Cant not found" });
     }
   }
 
-  //handle like and dislike comment
   async handleLike(req, res) {
     try {
       const { id_comment, crease } = req.body.data;
@@ -70,12 +75,19 @@ class CommemtController {
   async handleAddCommemt(req, res) {
     try {
       const { subcomment, id_user, comment, id_film } = req.body.data;
-
-      const newComment = await CommemtModel.create({
+      const SubPopulate = {
+        path: "user_comment",
+        select:
+          "blocked username fullname  avata icons createdAt  updatedAt level permission vip",
+      };
+      let newComment = await CommemtModel.create({
         user_comment: id_user,
         comment,
         id_film,
       });
+      newComment = await CommemtModel.findById(newComment._id).populate(
+        SubPopulate
+      );
       if (subcomment) {
         //nếu là commem bậc 2 thì
 
@@ -83,14 +95,14 @@ class CommemtController {
           { _id: subcomment },
           { $push: { subcomment: newComment._id } }
         );
-        const dataandupdate = await CommemtModel.updateOne(
+        await CommemtModel.updateOne(
           { _id: newComment._id },
           { level: dataParent.level + 1 }
         );
         let allSubcommemt = await CommemtModel.find({
           _id: { $in: [...dataParent.subcomment, newComment.id] },
         })
-          .populate("user_comment")
+          .populate(SubPopulate)
           .sort({ updatedAt: -1 });
         allSubcommemt = await CommemtController.getListIconSub(allSubcommemt);
         return res.json({
@@ -112,24 +124,27 @@ class CommemtController {
     }
   }
   static async getListIconSub(listcomment) {
-    listcomment = listcomment.map(async (user, index) => {
-      if (user.user_comment.icons?.length > 0) {
-        const result = await IconModel.find({
-          _id: { $in: user.user_comment.icons },
-        });
-        if (result) {
-          user.user_comment.icons = result;
+    const listNewComment = [];
+    listcomment.forEach(async (user) => {
+      if (user.user_comment) {
+        if (user.user_comment?.icons?.length > 0) {
+          const result = await IconModel.find({
+            _id: { $in: user.user_comment.icons },
+          });
+          if (result) {
+            user.user_comment.icons = result;
+          }
         }
+        listNewComment.push(user);
       }
-      return user;
     });
-    return await Promise.all(listcomment);
+    return await Promise.all(listNewComment);
   }
 
   async handleSubcommemt(req, res) {
     try {
       const { id_parent, subcomment } = req.body.data;
-      console.log(subcomment);
+
       let listSub = await CommemtModel.find({
         _id: { $in: [...subcomment] },
       }).populate({ path: "user_comment", populate: { path: "nameLevel" } });
@@ -157,7 +172,7 @@ class CommemtController {
   async handleDeletecommemt(req, res) {
     try {
       const _id = req.body.data.idcommemt;
-      console.log(req.body.data);
+
       await CommemtModel.updateMany(
         {},
         { $pull: { subcomment: { $in: [_id] } } }
