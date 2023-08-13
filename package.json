@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "dev": "nodemon --exec babel-node index.js"
+    "dev": "nodemon --exec babel-node index.js",
+    "builld": ""
   },
   "dependencies": {
     "@babel/core": "^7.22.10",
@@ -24,6 +25,9 @@
     "slug": "^8.2.2",
     "socket.io": "^4.7.2",
     "uniqid": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=14.20.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
