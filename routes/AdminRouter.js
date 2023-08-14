@@ -58,7 +58,7 @@ router.post("/checkaccount", AdminController.checkAccount);
 
 router
   .get("/user", AuthenzationAdmin, AdminController.showUser)
-  .get("/edituser", AuthenzationAdmin, AdminController.showUserEdit)
+  .get("/edituser", AdminController.showUserEdit)
   .post("/edituser", AuthenzationAdmin, AdminController.showUserEdit)
   .post("/user/deleteicon", AuthenzationAdmin, AdminController.deleteIcon)
   .post(
