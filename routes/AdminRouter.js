@@ -36,12 +36,7 @@ router
   .get("/user/admin/login", AdminController.login)
   .get("/catelog", AdminController.PageCateLog)
   .get("/catelog/additem", AdminController.showAdd)
-  .post(
-    "/catelog/additem",
-    AuthenzationAdmin,
-    upload.array("uploadfile"),
-    AdminController.AddFiml
-  )
+  .post("/catelog/additem", AuthenzationAdmin, AdminController.AddFiml)
   .post("/category/delete", AuthenzationAdmin, AdminController.deleteCategory);
 
 // router.get("/catelog/viewesopide",)
@@ -64,12 +59,7 @@ router.post("/checkaccount", AdminController.checkAccount);
 router
   .get("/user", AuthenzationAdmin, AdminController.showUser)
   .get("/user/edituser/:id", AuthenzationAdmin, AdminController.showUserEdit)
-  .post(
-    "/user/edituser/:id",
-    AuthenzationAdmin,
-    upload.single("uploadavata"),
-    AdminController.showUserEdit
-  )
+  .post("/user/edituser/:id", AuthenzationAdmin, AdminController.showUserEdit)
   .post("/user/deleteicon", AuthenzationAdmin, AdminController.deleteIcon)
   .post(
     "/user/admin/changePassword",

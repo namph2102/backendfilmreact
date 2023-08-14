@@ -1,7 +1,8 @@
 <link rel="stylesheet" href="/style/catelog.css">
 <h1 class="text-3xl font-semibold border-gray-600 border-b-[0.5px] pb-4 mb-3">Add Esopide</h1>
 
-<a class="block p-1 hover:bg-slate-950  border-gray-600 border-b-[0.5px] pb-4 mb-3" href="http://">
+<a class="block p-1 hover:bg-slate-950  border-gray-600 border-b-[0.5px] pb-4 mb-3"
+    href="/catelog/additem?idFilm={{film._id}}">
     <figure class="flex gap-x-2">
         <img src="{{film.thumb_url}}" width="40" height="40" class="object-cover" alt="Hoài Nam" />
         <figcaption>
@@ -91,7 +92,7 @@
     <p class="text-sm my-1">
         Full|https://hd.1080phim.com/20230421/38257_f2e85e2e/index.m3u8
     </p>
-    <form id="formadd" class="mt-4" action="http://localhost:3000/catelog/viewesopide" method="post">
+    <form id="formadd" class="mt-4" action="/catelog/viewesopide" method="post">
         <input type="text" hidden name="idFilm" id="idFilm" value="{{film._id}}" />
         <div>
             <label for="listEsopideEmbeded text-base font-bold">Esopide Embed:</label>

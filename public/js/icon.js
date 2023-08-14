@@ -3,12 +3,17 @@ import ToastMessage, {
   validatorImage,
 } from "./style.module.js";
 
-import { modalView, modalStatus, modal_btnApply } from "./utils.module.js";
+import {
+  modalView,
+  modalStatus,
+  modal_btnApply,
+  uploadFileModule,
+} from "./utils.module.js";
 let listIcons = [];
 /// addd icon
 const renderFormAdd = () => {
   const html = ` <h6 class="text-center pb-4 text-2xl">Add Icon</h6>
-    <form action="/icon/addIcon" id="formAddIcon" method="post" enctype="multipart/form-data">
+    <form action="/icon/addIcon" class="min-w-[300px]" id="formAddIcon" method="post" >
       <div>
         <label for="name"> Name </label>
         <input
@@ -20,6 +25,25 @@ const renderFormAdd = () => {
           placeholder="Enter your Icon ...."
         />
       </div>
+      <div>
+      <label for="name"> Nhập link </label>
+      <input
+        type="text"
+        id="icon_link"
+        class="input_style"
+        name="link"
+      
+        placeholder="Nhập link icon"
+      />
+      <input
+      id="icon_path"
+      type="text"
+      id="icon_title"
+      class="input_style"
+        hidden
+      name="path"
+    />
+    </div>
       <p class="mb-2 basis-full">Icons</p>
       <div class="flex items-center justify-center">
         <label for="icon_add" class="cursor-pointer relative">
@@ -61,9 +85,14 @@ const renderFormAdd = () => {
     }
   });
   const imageElement = document.getElementById("image_id");
-  let checkimage = false;
-  document.getElementById("icon_add").addEventListener("change", (e) => {
-    checkimage = validatorImage(e, imageElement, 200);
+
+  document.getElementById("icon_add").addEventListener("change", async (e) => {
+    const { url, path } = await uploadFileModule(e);
+    if ((url, path)) {
+      imageElement.setAttribute("src", url);
+      document.getElementById("icon_link").setAttribute("value", url);
+      document.getElementById("icon_path").setAttribute("value", path);
+    }
   });
   document
     .getElementById("formAddIcon")
@@ -73,18 +102,17 @@ const renderFormAdd = () => {
         ToastMessage.warning("Đã tồn tại icon này");
         return;
       }
-      if (!checkimage) {
-        ToastMessage.warning("Vui lòng chọn ảnh khác");
-        return;
-      }
       ToastMessage.success("Upload ảnh thành công!");
-
       this.submit();
     });
 };
+
 const btnAddIcon = document.getElementById("btn_add-icon");
 btnAddIcon.onclick = () => {
   renderFormAdd();
+  document.getElementById("icon_link").addEventListener("change", function (e) {
+    document.getElementById("image_id").setAttribute("src", e.target.value);
+  });
 };
 ///end add icon
 const icon_container = document.getElementById("icon_container");
@@ -180,6 +208,15 @@ const renderViewEditIcon = (icon) => {
           required
           placeholder="Enter your Link ...."
         />
+        <input
+        type="text"
+        id="icon_path"
+        class="input_style"
+        name="path"
+        value="${icon.path}"
+        hidden
+      
+      />
       </div>
 
         <p class="mb-2 basis-full">Icons</p>
@@ -215,18 +252,25 @@ const renderViewEditIcon = (icon) => {
   modalView.classList.toggle("hideElement");
   const imageElement = document.getElementById("image_id");
   let checkimage = false;
-  document.getElementById("icon_edit").addEventListener("change", (e) => {
-    checkimage = validatorImage(e, imageElement, 200);
+  document.getElementById("icon_edit").addEventListener("change", async (e) => {
+    const { url, path } = await uploadFileModule(e);
+    if ((url, path)) {
+      imageElement.setAttribute("src", url);
+      document.getElementById("icon_link").setAttribute("value", url);
+      document.getElementById("icon_path").setAttribute("value", path);
+    }
   });
   const formEdit = document.getElementById("formEditicon");
   formEdit.addEventListener("submit", function (e) {
     e.preventDefault();
     const title = this.title.value;
     const link = this.link.value;
+    const path = this.link.value;
     const data = {
       id: icon._id,
       title,
       link,
+      path,
     };
     renderKingofModalStatus("Bạn chắc chắn sửa chứ?");
     modalView.classList.toggle("hideElement");

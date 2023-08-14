@@ -1,22 +1,28 @@
+const { default: CloudinaryServices } = require("../../services");
 const IconModel = require("../models/IconModel");
 const UserModal = require("../models/UserModel");
 const Util = require("../utils/UserUtil");
 
 class IconTroller {
   async init(req, res) {
-    let message = "";
     try {
-      const file = req.file;
-      let { title } = req.body;
-      const image = Util.plusLinkImage(file.filename);
-      if (title && image) {
+      let { title, link, path = "" } = req.body;
+      if (!link || !title) throw new Error("Thiếu dữ liệu");
+      if (title) {
         title = Util.coverCapitalize(title);
-        const checkIconExtended = await IconModel.findOne({ title });
+        const checkIconExtended = await IconModel.findOne({
+          $or: [{ title }, { link }],
+        });
         if (checkIconExtended) {
-          await Util.removeImage(image);
           throw new Error(`${title} đã tồn tại`);
         }
-        await IconModel.create({ link: image, title });
+        if (!path) {
+          const res_image = await CloudinaryServices.uploadImage(link);
+          link = res_image.url;
+          path = res_image.path;
+          console.log(res_image);
+        }
+        await IconModel.create({ link, title, path });
         message = `Icon ${title} đã tạo thành công`;
       }
       res.redirect("/icon/show");
@@ -24,6 +30,7 @@ class IconTroller {
       res.redirect("/icon/show");
     }
   }
+
   async addIconToUser(req, res) {
     try {
       const { idIcon, idUser } = req.body.data;
@@ -67,10 +74,11 @@ class IconTroller {
     try {
       const { id } = req.params;
       await UserModal.updateMany({ $pull: { icons: id } });
-      const result = await IconModel.findByIdAndDelete({ _id: id });
+      const result = await IconModel.findByIdAndDelete(id);
       if (!result) {
         throw new Error(`Xóa thất bại!`);
       }
+      result.path && (await CloudinaryServices.deleteFileImage(result.path));
       res.status(200).json({ message: `Xóa thành công icon ${result.title}` });
     } catch (err) {
       res.status(404).json({ message: err.message });
@@ -78,33 +86,34 @@ class IconTroller {
   }
   async editIcon(req, res) {
     try {
-      const { id, title, link } = req.body;
-      const file = req.file;
-      const icon = await IconModel.findById({ _id: id });
+      let { id, title, link, path } = req.body;
+      if (!id || !title) throw new Error("Dữ liệu không đầy đủ");
+      const icon = await IconModel.findById(id);
       if (!icon) {
-        res.status(404).json({ message: "Icon không tồn tại" });
-        return;
+        throw new Error("Icon không tồn tại");
       }
-      if (file) {
-        await Util.removeImage(icon.link);
-        const newimage = Util.plusLinkImage(file.filename);
-        await IconModel.findByIdAndUpdate(
-          { _id: id },
-          { title: Util.coverCapitalize(title), link: newimage }
-        );
-        throw new Error("Upload thành công");
+
+      if (icon.link !== link) {
+        icon.path && (await CloudinaryServices.deleteFileImage(icon.path));
+        const res_image = await CloudinaryServices.uploadImage(link);
+        link = res_image.url;
+        path = res_image.path;
+        console.log(res_image);
       }
-      const result = await IconModel.findByIdAndUpdate(
-        { _id: id },
-        { title: Util.coverCapitalize(title), link: link.trim() }
-      );
+      const result = await IconModel.findByIdAndUpdate(id, {
+        title: Util.coverCapitalize(title),
+        link: link.trim(),
+        path,
+      });
       if (result) {
         res.status(200).json({ message: "Cập nhập thành công!" });
       } else {
         throw new Error("Cập nhập thành công!");
       }
     } catch (err) {
-      res.redirect("/icon/show");
+      res.status(404).json({ message: err.message });
+      console.log(err.message);
+      // res.redirect("/icon/show");
     }
   }
 }

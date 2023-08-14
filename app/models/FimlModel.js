@@ -9,6 +9,8 @@ const FimlModel = new Shema(
     description: { type: String, required: true },
     thumb_url: { type: String, required: true },
     poster_url: { type: String, required: true },
+    thumb_path: { type: String, default: "" },
+    poster_path: { type: String, default: "" },
     // category: { type: Array, default: [] },
     category: [
       { type: mongoose.Schema.Types.ObjectId, ref: "categories", default: [] },

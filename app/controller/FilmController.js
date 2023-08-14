@@ -7,6 +7,7 @@ const StarModel = require("../models/StarModel");
 const CommentModel = require("../models/CommemtModel");
 const BookMarkModel = require("../models/BookMarkModel");
 const Utils = require("../utils/UserUtil");
+const { default: CloudinaryServices } = require("../../services");
 class FimlController {
   async init(req, res) {
     try {
@@ -295,13 +296,16 @@ class FimlController {
   async deleteFilm(req, res) {
     try {
       const { idFilm } = req.body;
-      console.log(req.body);
-      const film = await FimlsModel.findByIdAndDelete({ _id: idFilm });
 
-      await Promise.all([
-        Utils.removeImage(film.thumb_url),
-        Utils.removeImage(film.poster_url),
-      ]);
+      const film = await FimlsModel.findByIdAndDelete(idFilm);
+
+      if (film.thumb_path) {
+        await CloudinaryServices.deleteFileImage(film.thumb_path);
+      }
+      if (film.poster_path) {
+        await CloudinaryServices.deleteFileImage(film.poster_path);
+      }
+
       await BookMarkModel.updateMany(
         {},
         { listBookmark: { $pull: { slug: film.slug } } }
@@ -316,6 +320,19 @@ class FimlController {
     } catch (err) {
       res.status(404).json({ message: err.message });
       console.log(err.message);
+    }
+  }
+  async searchFilm(req, res) {
+    try {
+      const search = req.body.data;
+      const listfilmSearch = await FimlsModel.find({
+        $text: { $search: search },
+      });
+      res.status(200).json({ listfilmSearch, message: "Tìm kiếm thành công" });
+    } catch (error) {
+      res
+        .status(200)
+        .json({ listfilmSearch: [], message: "Tìm kiếm thất bại" });
     }
   }
 }

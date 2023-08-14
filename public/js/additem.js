@@ -6,15 +6,32 @@ mobiscroll.setOptions({
 });
 const thumb = document.getElementById("thumb");
 const poster = document.getElementById("poster");
-const thumbimg = document.getElementById("thumbimg");
-const posterimg = document.getElementById("posterimg");
+
+function uploadFileModule(e, name) {
+  const file = e.target.files[0];
+  const formData = new FormData();
+  formData.append("file", file);
+  fetch("/uploadfile", { method: "POST", body: formData })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.status == 200) {
+        const { url, path } = data.image;
+        if (name) {
+          document.getElementById(`${name}_path`).setAttribute("value", path);
+          document.getElementById(`${name}_url`).setAttribute("value", url);
+          document.getElementById(`${name}img`).setAttribute("src", url);
+        }
+        ToastMessage.success("Tải ảnh thành công");
+      }
+    });
+}
 
 thumb.addEventListener("change", function (e) {
-  validatorImage(e, thumbimg, 1000);
+  uploadFileModule(e, "thumb");
 });
 
 poster.addEventListener("change", function (e) {
-  validatorImage(e, posterimg, 1500);
+  uploadFileModule(e, "poster");
 });
 fetch("/category")
   .then((res) => res.json())

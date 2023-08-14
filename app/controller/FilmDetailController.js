@@ -3,19 +3,19 @@ const FilmModel = require("../models/FimlModel");
 class FilmDetailController {
   static async updateTotalFilm(idFilm) {
     try {
-      const infoFilm = await FimlDeltailModel.findOne({
-        idFilm,
-      }).select("listEsopideStream listEsopideEmbeded");
+      const infoFilm = await FimlDeltailModel.findById(idFilm).select(
+        "listEsopideStream listEsopideEmbeded"
+      );
 
       const maxTotal = Math.max(
-        infoFilm.listEsopideStream?.length || 0,
-        infoFilm.listEsopideEmbeded?.length || 0
+        infoFilm?.listEsopideStream?.length || 0,
+        infoFilm?.listEsopideEmbeded?.length || 0
       );
-      const film = await FilmModel.findOne({ _id: idFilm });
+      const film = await FilmModel.findById(idFilm);
       const dataupdate = {};
       dataupdate.episode_current = Number(maxTotal) || 0;
 
-      if (film.eposode_total < maxTotal) {
+      if (film?.eposode_total < maxTotal) {
         dataupdate.eposode_total = maxTotal;
         if (maxTotal > 1) {
           dataupdate.kind = "series";
@@ -26,11 +26,12 @@ class FilmDetailController {
       if (
         infoFilm.listEsopideStream.length != infoFilm.listEsopideEmbeded.length
       ) {
-        dataupdate.episode_current = "uncompleted";
+        dataupdate.status = "uncompleted";
       } else {
-        dataupdate.episode_current = "completed";
+        dataupdate.status = "completed";
       }
-      await FilmModel.updateOne({ _id: idFilm }, dataupdate);
+
+      await FilmModel.findByIdAndUpdate(idFilm, dataupdate);
     } catch (err) {
       console.log(err.message);
       console.log("Upload tập phim thất bại");
@@ -39,7 +40,7 @@ class FilmDetailController {
 
   async init(req, res) {
     const slug = req.body.slug;
-    console.log(slug);
+
     try {
       const findFilm = await FilmModel.findOne({ slug });
       if (findFilm) {
@@ -57,7 +58,7 @@ class FilmDetailController {
   async addlistFilm(req, res) {
     try {
       let message = "";
-      const { idFilm, embed, m3u8 } = req.body;
+      let { idFilm, embed, m3u8 } = req.body;
       if (!idFilm) throw new Error("Dữ liệu thiếu");
       const checked = await FimlDeltailModel.findOne({ idFilm });
       if (checked) {
@@ -72,6 +73,7 @@ class FilmDetailController {
             $push: { listEsopideEmbeded: { $each: coverembed, $position: 0 } },
           }
         );
+
         await FimlDeltailModel.updateOne(
           { idFilm },
           {
@@ -80,14 +82,16 @@ class FilmDetailController {
         );
         message = "Cập nhập thành công!";
       } else {
-        await FimlDeltailModel.create({
+        const newFilm = await FimlDeltailModel.create({
           idFilm,
           listEsopideStream: m3u8,
           listEsopideEmbeded: embed,
         });
+        idFilm = newFilm._id;
         message = "Thay đổi  thành công!";
       }
-      await FilmDetailController.updateTotalFilm(idFilm);
+
+      await FilmDetailController.updateTotalFilm(idFilm.toString());
       res.status(200).json({ message });
     } catch (err) {
       res.status(404).json({ message: err.message, status: 404 });

@@ -20,7 +20,7 @@
 
 </section>
 <section class="border-gray-600 border-[0.5px] rounded-xl p-2">
-    <form action="" class="flex flex-wrap gap-y-4" method="post" enctype="multipart/form-data">
+    <form action="" class="flex flex-wrap gap-y-4" method="post">
         <div class="lg:basis-1/4 md:basis-1/2 basis-full flex md:pr-3">
             <label for="thumb"
                 class="m-auto flex flex-1 h-full bg-[#151F30] min-w-[190px] min-h-[130px] sm:min-h-[290px] relative cursor-pointer">
@@ -33,14 +33,16 @@
                         src="{{poster_url}}" alt="" />
                 </figure>
             </label>
-            <input id="thumb" type="file" name="uploadfile" class="hidden" />
+            <input id="thumb" type="file" class="hidden" />
+            <input type="text" hidden value="{{thumb_path}}" name="thumb_path" id="thumb_path" />
         </div>
         <div class="lg:basis-3/4 md:basis-1/2 basis-full flex flex-col gap-y-3">
-            <input required type="text" class="input_style" placeholder="Title" value="{{name}}" name="name" />
+            <input id="name" required type="text" class="input_style" placeholder="Title" value="{{name}}"
+                name="name" />
             <input required type="text" class="input_style" placeholder="Origin Name" value="{{origin_name}}"
-                name="origin_name" />
+                name="origin_name" id="origin_name" />
             <textarea required class="bg-[#151F30] border-none outline-none px-2 py-1" value="{{description}}"
-                placeholder="Description" name="description" rows="4">{{description}}</textarea>
+                placeholder="Description" id="content" name="description" rows="4">{{description}}</textarea>
             {{#if _id}}
             <input type="text" name="idFilm" hidden id="idFilm" value="{{_id}}">
             {{/if}}
@@ -67,23 +69,31 @@
 
                 </select>
             </div>
+            <div class="grid grid-cols-2  gap-2">
+                <input type="text" required class="input_style" value="{{thumb_url}}" id="thumb_url"
+                    placeholder="thumb_url" name="thumb_url" />
+                <input type="text" class="input_style" value="{{poster_url}}" id="poster_url" placeholder="poster_url"
+                    name="poster_url" />
+            </div>
             <div class="grid lg:grid-cols-4 grid-cols-2 gap-2">
-                <input required type="text" class="input_style" value="{{time}}" placeholder="Time" name="time" />
-                <input required type="number" class="input_style" value="{{year}}" placeholder="Year" name="year" />
+                <input required type="text" class="input_style" value="{{time}}" placeholder="Time" id="time"
+                    name="time" />
+                <input required type="number" class="input_style" value="{{year}}" placeholder="Year" id="year"
+                    name="year" />
                 <input required type="text" class="input_style capitalize" value="{{country.country}}"
-                    placeholder="Country" name="country" />
+                    placeholder="Country" id="country" name="country" />
 
             </div>
-            <div class="grid lg:grid-cols-4 grid-cols-2 gap-2 {{#if episode_current}} {{else}}hideElement {{/if}}">
+            <div class="grid lg:grid-cols-4 grid-cols-2 gap-2 ">
                 <div>
                     <label for="eposode_total">Total Esopide</label>
-                    <input required type="number" id="eposode_total" class="input_style capitalize"
+                    <input id="episode_total" required type="number" class="input_style capitalize"
                         value="{{#if eposode_total}}{{eposode_total}}{{else}}1{{/if}}" placeholder="Total Esopide"
                         name="eposode_total" />
                 </div>
                 <div>
                     <label for="episode_current">Esopide Current</label>
-                    <input required type="number" id="episode_current" class="input_style capitalize"
+                    <input type="number" class="input_style capitalize"
                         value="{{#if episode_current}}{{episode_current}}{{else}}0{{/if}}" placeholder="Esopide current"
                         name="episode_current" />
                 </div>
@@ -100,7 +110,7 @@
                     <option value="series">Phim dài tập</option>
                     <option value="trailer">Phim Trailer</option>
                 </select>
-                <select required name="status" class="input_style cursor-pointer" id="status">
+                <select required name="status" class="input_style cursor-pointer">
                     {{#if status}}
                     <option class="capitalize" value="{{status}}">{{status}}</option>
                     {{else}}
@@ -110,7 +120,7 @@
                     <option value="completed">Hoàn thành</option>
                     <option value="uncompeleted">Chưa hoàn thành</option>
                 </select>
-                <select required name="quanlity" class="input_style cursor-pointer" id="quanlity">
+                <select required name="quanlity" class="input_style cursor-pointer">
 
                     {{#if quanlity}}
                     <option class="capitalize" value="{{quanlity}}">{{quanlity}}</option>
@@ -120,7 +130,7 @@
                     <option value="HD">HD</option>
                     <option value="Full HD">Full HD</option>
                 </select>
-                <select required name="lang" class="input_style cursor-pointer" id="lang">
+                <select required name="lang" id="lang" class="input_style cursor-pointer">
                     {{#if lang}}
                     <option class="capitalize" value="{{lang}}">{{lang}}</option>
                     {{else}}
@@ -139,7 +149,8 @@
                     <i class="fa-solid fa-link"></i>
                 </label>
 
-                <input type="file" hidden name="uploadfile" id="poster" />
+                <input type="file" hidden id="poster" />
+                <input type="text" hidden value="{{poster_path}}" name="poster_path" id="poster_path" />
             </div>
         </div>
         <div class="basis-full text-center">
@@ -149,8 +160,57 @@
             </button>
         </div>
     </form>
+    {{#if _id}}
+    {{else}}
+    <div>
+        <input type="text" id="crawlink" placeholder="Craw link" class="input_style cursor-pointer my-4" />
+        <div class="flex justify-center items-centerce">
+            <button type="button" onclick="handleSubmitCrawLink()"
+                class="bg-yellow-600 py-2 px-5 hover:bg-yellow-800 rounded-full">Lấy api từ link</button>
+        </div>
+    </div>
+    {{/if}}
+
 </section>
 
 
+<script>
+    function showValue(id, value) {
+        const element = document.getElementById(id);
+        console.log(element, value)
+        if (element) {
+            const tagName = element.tagName.toLowerCase();
+            if (tagName == "input") {
+                element.setAttribute("value", value)
+            } else if (tagName == "textarea") {
+                element.innerText = value; element.setAttribute("value", value)
+            }
+            if (id.includes("thumb")) {
+                document.getElementById('thumbimg').setAttribute("src", value)
+            } else if (id.includes("poster")) {
+                document.getElementById('posterimg').setAttribute("src", value)
+            }
+        }
 
+    }
+    function handleSubmitCrawLink() {
+        const valuecrawlink = document.querySelector("#crawlink").value;
+        if (valuecrawlink) {
+            fetch(valuecrawlink).then((res) => res.json()).then(res => {
+                if (res.status) {
+                    const { year, thumb_url, poster_url, content, origin_name, name, time, episode_total, quality, lang } = res.movie;
+                    for (let [key, value] of Object.entries(res.movie)) {
+                        if (key == "country") {
+                            value = value[0]?.name
+                        }
+                        showValue(key, value)
+
+                    }
+                }
+            })
+        }
+    }
+
+
+</script>
 <script type="module" src="/js/additem.js"></script>

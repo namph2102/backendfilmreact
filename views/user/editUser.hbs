@@ -196,8 +196,7 @@
                 </button>
             </div>
 
-            <form class="flex flex-col justify-center items-center lg:col-span-2 col-span-1" method="post"
-                enctype="multipart/form-data" action="">
+            <form class="flex flex-col justify-center items-center lg:col-span-2 col-span-1" method="post" action="">
                 <input type="text" hidden name="iduser" required value="{{account._id}}">
                 <label for="avata"
                     class="m-auto  border-2 border-dashed border-white flex flex-1 bg-[#151F30] w-full min-h-[200px] relative cursor-pointer">
@@ -207,7 +206,10 @@
                             alt="" />
                     </figure>
                 </label>
-                <input id="avata" type="file" name="uploadavata" class="hidden" />
+                <input id="avata" type="file" class="hidden" />
+                <input id="user_link" hidden="input_style my-2" type="text" name="link" value="{{account.avata}}" />
+                <input id="user_path" hidden class="input_style" type="text" name="path" value="{{account.path}}" />
+
                 <button type="submit"
                     class="py-2 px-3 mt-4 rounded-xl bg-blue-700 text-gray-100 hover:bg-white hover:text-black ease-linear duration-100 sm:w-[200px] w-4/5">
                     Change Avata

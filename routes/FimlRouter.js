@@ -22,6 +22,7 @@ Router.post("/film", FilmController.getFilmDetail)
   .get("/listsub", FilmController.getListSubmenu)
   .get("/getall", AuthenzationAdmin, FilmController.getAll)
   .post("/blockfilm", AuthenzationAdmin, FilmController.blockFilm)
-  .post("/deleteFilm", AuthenzationAdmin, FilmController.deleteFilm);
+  .post("/deleteFilm", AuthenzationAdmin, FilmController.deleteFilm)
+  .post("/search", FilmController.searchFilm);
 
 module.exports = Router;

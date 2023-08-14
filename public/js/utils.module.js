@@ -471,3 +471,15 @@ const commentAcciton = (listComment, row = 4) => {
     }
   };
 };
+export function uploadFileModule(e, name) {
+  const file = e.target.files[0];
+  const formData = new FormData();
+  formData.append("file", file);
+  return fetch("/uploadfile", { method: "POST", body: formData })
+    .then((res) => res.json())
+    .then((data) => {
+      if (data.status == 200) {
+        return data.image;
+      }
+    });
+}

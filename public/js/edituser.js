@@ -1,13 +1,10 @@
-import ToastMesage, {
-  renderKingofModalStatus,
-  validatorImage,
-} from "./style.module.js";
+import ToastMesage, { renderKingofModalStatus } from "./style.module.js";
 import {
   modal_btnApply,
   modalStatus,
-  modalView,
   renderListTopup,
   renderListComment,
+  uploadFileModule,
 } from "./utils.module.js";
 let listComment,
   listTopup = [];
@@ -121,8 +118,12 @@ btnSubmitPassword.onclick = () => {
 // change avata
 const avataInputFile = document.getElementById("avata");
 const showAvata = document.getElementById("showAvata");
-avataInputFile.onchange = (e) => {
-  validatorImage(e, showAvata);
+
+avataInputFile.onchange = async (e) => {
+  const { url, path } = await uploadFileModule(e);
+  showAvata.setAttribute("src", url);
+  document.getElementById("user_link").setAttribute("value", url);
+  document.getElementById("user_path").setAttribute("value", path);
 };
 
 //end handle comment

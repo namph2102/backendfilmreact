@@ -15,6 +15,7 @@ const handleSlug = require("slug");
 const CountryController = require("../controller/CountryController");
 const fs = require("fs");
 const argon = require("argon2");
+const { default: CloudinaryServices } = require("../../services");
 const makeUpNumber = (number = 0) => {
   return number ? number.toLocaleString("en-vi") : 0;
 };
@@ -164,7 +165,7 @@ class AdminController {
     }
   }
   async AddFiml(req, res) {
-    let thumb, poster, data, film, message, error;
+    let data, film, message;
     try {
       let {
         name,
@@ -181,8 +182,12 @@ class AdminController {
         quanlity,
         lang,
         idFilm,
+        thumb_url,
+        poster_url = "/images/poster.png",
+        thumb__path = "",
+        poster_path = "",
       } = req.body;
-      console.log("categories", categories);
+
       // nếu không phải edit check extend film follow name
       if (!idFilm) {
         const Checkfiml = await FimlModel.findOne({
@@ -195,41 +200,14 @@ class AdminController {
       country = await CountryController.addCountry(
         Util.replaceManySpace(country).toLowerCase()
       );
-      const [images1, images2] = req.files;
 
       if (!time || !year || !description || !name || !categories) {
         throw new Error("Thiếu dữ liệu hãy kiểm tra lại");
       }
       if (idFilm) {
-        film = await FimlModel.findById({ _id: idFilm }).populate("category");
+        film = await FimlModel.findById(idFilm).populate("category");
         if (!film) {
           throw new Error("Không tìm thấy phim theo yêu cầu");
-        }
-        if (images1) {
-          thumb = Util.plusLinkImage(images1.filename);
-          await Util.removeImage(film.thumb_url);
-        } else {
-          thumb = film.thumb_url;
-        }
-        if (images2) {
-          poster = Util.plusLinkImage(images2.filename);
-          if (!film.poster_url.includes("poster")) {
-            await Util.removeImage(film.poster_url);
-          }
-        } else {
-          poster = film.poster_url;
-        }
-      } else {
-        if (images1) {
-          thumb = Util.plusLinkImage(images1.filename);
-        } else {
-          throw new Error("Ảnh thumb bắt buộc");
-        }
-
-        if (!images2) {
-          poster = process.env.DOMAIN + "images/poster.png";
-        } else {
-          poster = Util.plusLinkImage(images2.filename);
         }
       }
       data = {
@@ -248,8 +226,10 @@ class AdminController {
         episode_current: episode_current || 1,
         quanlity,
         lang,
-        thumb_url: thumb,
-        poster_url: poster,
+        thumb_url,
+        poster_url,
+        thumb__path,
+        poster_path,
       };
 
       if (!idFilm) {
@@ -281,7 +261,7 @@ class AdminController {
         }
         message = "Chỉnh sửa thành công !";
       }
-      film = await FimlModel.findById({ _id: film._id || idFilm })
+      film = await FimlModel.findById(film._id || idFilm)
         .populate("category")
         .populate("country")
         .lean();
@@ -307,7 +287,6 @@ class AdminController {
   async deleteCategory(req, res) {
     try {
       const { idFilm, idCate } = req.body;
-      console.log(req.body);
       await FimlModel.updateOne(
         { _id: idFilm },
         {
@@ -390,19 +369,18 @@ class AdminController {
     let message = "",
       error = "";
     try {
-      const { iduser } = req.body;
-      const file = req.file;
+      const { iduser, link, path } = req.body;
 
-      if (file && iduser) {
-        console.log(file);
-        const avataNew = Util.plusLinkImage(file.filename);
-        const account = await UserModel.findByIdAndUpdate(
-          { _id: iduser },
-          { avata: avataNew }
-        );
-        await Util.removeImage(account.avata);
+      if (link && path && iduser) {
+        const account = await UserModel.findByIdAndUpdate(iduser, {
+          avata: link,
+          path: path,
+        });
+        account.path &&
+          (await CloudinaryServices.deleteFileImage(account.path));
         message = "Thay đổi avata thành công !";
       }
+
       const { icons, fullname, permission, vip, expLv, coin, blocked } =
         req.body;
       if (icons && iduser) {
@@ -545,7 +523,7 @@ class AdminController {
 
         return;
       }
-      const [{ sumMoney }] = await TopUpModel.aggregate([
+      const totalTopupGen = await TopUpModel.aggregate([
         {
           $match: {
             status: 2,
@@ -558,6 +536,10 @@ class AdminController {
           },
         },
       ]);
+      let sumMoney = 0;
+      if (totalTopupGen && totalTopupGen[0]) {
+        sumMoney = totalTopupGen[0].sumMoney;
+      }
       let total = 0;
       if (sumMoney) {
         total = sumMoney.toLocaleString("en-vi");
