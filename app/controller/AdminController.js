@@ -385,8 +385,16 @@ class AdminController {
         message = "Thay đổi avata thành công !";
       }
 
-      const { icons, fullname, permission, vip, expLv, coin, blocked } =
-        req.body;
+      const {
+        icons,
+        fullname,
+        username,
+        permission,
+        vip,
+        expLv,
+        coin,
+        blocked,
+      } = req.body;
       if (icons && iduser) {
         await UserModel.updateOne({ _id: iduser }, { $push: { icons: icons } });
         message = "Thay đổi thành công";
@@ -403,6 +411,7 @@ class AdminController {
             { _id: iduser },
             {
               fullname: Util.coverCapitalize(fullname),
+              username,
               permission: permission.toLowerCase(),
               vip,
               expLv,

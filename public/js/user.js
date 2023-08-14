@@ -48,7 +48,7 @@ const renderSearchItem = (valueSearch) => {
     )
     .map(
       (item) => `<li>
-<a class="block p-1 hover:bg-slate-950" href="/user/edituser?id=${item._id}">
+<a class="block p-1 hover:bg-slate-950" href="/edituser?id=${item._id}">
   <figure class="flex gap-x-2">
       <img src="${item.avata}" width="40" height="80" class="object-cover" >
       <figcaption>
@@ -175,7 +175,7 @@ const renderList = (dataSource) => {
               <button class="btn_view">
                   <i class="fa-solid fa-eye"></i>
               </button>
-              <a href="/user/edituser?id=${user._id}"> <button class="btn_edit">
+              <a href="/edituser?id=${user._id}"> <button class="btn_edit">
               <i class="fa-solid fa-pencil"></i>
           </button></a>
             
@@ -196,7 +196,7 @@ const renderList = (dataSource) => {
 const renderDataView = (user) => {
   const html = `  <h6 class="text-center pb-4 text-2xl">Account Detail</h6>
   <figure class="flex flex-col items-center mb-4">
-    <a href="/user/edituser?id=${user._id}">
+    <a href="/edituser?id=${user._id}">
       <img
         class="w-[50px] object-cover h-[50px] rounded-full"
         src="${user.avata}"
