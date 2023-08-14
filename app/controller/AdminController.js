@@ -443,7 +443,7 @@ class AdminController {
         );
       }
 
-      res.render("user/edituser", {
+      res.render("user/editUser", {
         user: true,
         account,
         listIcons,
