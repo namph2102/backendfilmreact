@@ -419,7 +419,7 @@ class AdminController {
           message = "Thay đổi thành công";
         }
       }
-      const id = req.params.id;
+      const { id } = req.query;
       const account = await UserModel.findById({ _id: id })
         .populate("icons")
         .lean();

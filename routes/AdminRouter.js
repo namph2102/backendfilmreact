@@ -58,8 +58,8 @@ router.post("/checkaccount", AdminController.checkAccount);
 
 router
   .get("/user", AuthenzationAdmin, AdminController.showUser)
-  .get("/user/edituser/:id", AuthenzationAdmin, AdminController.showUserEdit)
-  .post("/user/edituser/:id", AuthenzationAdmin, AdminController.showUserEdit)
+  .get("/user/edituser", AuthenzationAdmin, AdminController.showUserEdit)
+  .post("/user/edituser", AuthenzationAdmin, AdminController.showUserEdit)
   .post("/user/deleteicon", AuthenzationAdmin, AdminController.deleteIcon)
   .post(
     "/user/admin/changePassword",
