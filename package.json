@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "nodemon --exec babel-node index.js",
-    "builld": ""
+    "start": "nodemon --exec babel-node index.js"
   },
   "dependencies": {
     "@babel/core": "^7.22.10",
@@ -31,5 +31,6 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.22"
-  }
+  },
+  "type": "commonjs"
 }

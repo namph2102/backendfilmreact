@@ -54,17 +54,21 @@ class AdminController {
         },
       ]);
 
-      const [
-        [{ totalViews = 0 }],
-        totalComment = 0,
-        totalAccount = 0,
-        [{ topupInMonth = 0 }],
-      ] = await Promise.all([
-        getTotalViews,
-        commentInMonth,
-        accountInMonth,
-        getTopupInMonth,
-      ]);
+      let [totalViewsss, totalComment = 0, totalAccount = 0, itemtopupssss] =
+        await Promise.all([
+          getTotalViews,
+          commentInMonth,
+          accountInMonth,
+          getTopupInMonth,
+        ]);
+      let topupInMonth = 0;
+      if (itemtopupssss && itemtopupssss[0]) {
+        topupInMonth = itemtopupssss[0].topupInMonth;
+      }
+      let totalViews = 0;
+      if (totalViewsss && totalViewsss[0]) {
+        totalViews = totalViewsss[0].totalViews;
+      }
       const [listFilmTop, listLastFilm, TopUser, TopUp] = await Promise.all([
         FimlModel.find()
           .sort({ view: -1 })
