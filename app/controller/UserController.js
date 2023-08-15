@@ -176,7 +176,6 @@ class UserController {
     }
   }
   async updateProfile(req, res) {
-    console.log(req.body.data);
     try {
       const {
         fullname = "",
@@ -211,14 +210,19 @@ class UserController {
       if (!_id) {
         throw new Error("Dữ liệu chưa đầy đủ");
       }
-      const checkAccount = await UserModel.findById({ _id });
+      const checkAccount = await UserModel.findById(_id);
       if (!checkAccount) {
         throw new Error("Tài khoản không tồn tại");
       }
+
       if (checkAccount.path) {
-        CloudinaryServices.deleteFileImage(checkAccount.path);
+        await CloudinaryServices.deleteFileImage(checkAccount.path);
       }
-      await UserModel.findByIdAndUpdate({ _id }, { avata, path });
+      const createImage = await CloudinaryServices.uploadImage(avata);
+
+      avata = createImage.url;
+      path = createImage.path;
+      await UserModel.findByIdAndUpdate(_id, { avata, path });
 
       res.status(200).json({
         message: "Thay đổi ảnh đại diện thành công",
@@ -230,7 +234,7 @@ class UserController {
   async blockUser(req, res) {
     try {
       const { _id, blocked } = req.body.data;
-      console.log(req.body.data);
+
       await UserModel.findByIdAndUpdate({ _id }, { blocked });
       res.status(200).json({
         status: 200,
@@ -265,7 +269,7 @@ class UserController {
   async changePassword(req, res) {
     try {
       const { _id, oldPassword, newPassword } = req.body.data;
-      console.log(req.body.data);
+
       if (!oldPassword || !newPassword) {
         throw new Error("Dữ liệu chưa đầy đủ!");
       }

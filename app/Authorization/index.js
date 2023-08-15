@@ -3,7 +3,6 @@ const UserModel = require("../models/UserModel");
 const argon2 = require("argon2");
 const authResgisther = async (req, res) => {
   let { username, password } = req.body;
-
   try {
     const findUser = await UserModel.findOne({ username });
     if (!findUser?.username) {
@@ -39,23 +38,19 @@ const authResgisther = async (req, res) => {
 const authLogin = (req, res) => {
   // login wit have token;
   const token = req.headers["authorization"];
+
   // Bearer ['token']
   if (!token) return res.sendStatus(401);
   try {
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, account) => {
       if (err) return res.sendStatus(403);
+
       if (account?.username) {
         (async () => {
-          const accessToken = jwt.sign(
-            { username: account.username },
-            process.env.ACCESS_TOKEN_SECRET
-          );
-          const data = await UserModel.findOneAndUpdate(
-            {
-              username: account.username,
-            },
-            { $set: { accessToken } }
-          ).populate("icons");
+          const data = await UserModel.findOne({
+            accessToken: token,
+          }).populate("icons");
+
           if (data) {
             res.status(200).json({ data, status: 200 });
           } else {
@@ -112,9 +107,7 @@ const Authorization = async (req, res, next) => {
 // phân quyền cho trang admin
 const AuthorizationAdmin = async (req, res, next) => {
   try {
-    console.log("AuthorizationAdmin");
     if (req?.cookies?.username) {
-      console.log("Your username của bạn là :", req.cookies.username);
       const account = await UserModel.findOne({
         username: req.cookies.username,
       });

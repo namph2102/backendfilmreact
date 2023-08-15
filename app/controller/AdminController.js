@@ -73,12 +73,12 @@ class AdminController {
         FimlModel.find()
           .sort({ view: -1 })
           .limit(5)
-          .select("view star like")
+          .select("view star like name")
           .lean(),
         FimlModel.find()
           .sort({ updatedAt: -1 })
           .limit(5)
-          .select("view star like")
+          .select("view star like name")
           .lean(),
         UserModel.find()
           .sort({ expLv: -1 })

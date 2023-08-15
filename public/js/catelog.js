@@ -115,7 +115,7 @@ const renderList = (dataSource, listRating) => {
                 </div>
             </td>
             <td>
-                <div class="py-4 mt-2 min-w-fit whitespace-nowrap px-4">
+                <div class="py-4 mt-2 min-w-fit whitespace-nowrap px-4 capitalize">
                 ${film.name}
                 </div>
             </td>
@@ -195,7 +195,7 @@ const renderDataView = (film) => {
           <img class="w-[50px]  object-cover h-[80px]"
               src="${film.thumb_url}" alt="" />
       </a>
-      <figcaption class="text-sm mt-2">${film.name}</figcaption>
+      <figcaption class="text-sm mt-2 capitalize">${film.name}</figcaption>
   </figure>
   <article class="grid sm:grid-cols-2  grid-cols-1 gap-2">
       <div>

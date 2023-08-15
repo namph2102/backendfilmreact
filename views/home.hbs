@@ -53,7 +53,7 @@
         <table class="w-full text-center">
             <thead>
                 <tr class="text-lg text-gray-400 font-bold">
-                    <td>Id</td>
+                    <td>Phim</td>
                     <td>Like</td>
                     <td>Views</td>
                     <td> Star</td>
@@ -62,8 +62,8 @@
             <tbody>
                 {{#each listFilmTop}}
                 <tr>
-                    <td class=" max-w-[60px] overflow-auto scroll_with-none">
-                        #{{this._id}}
+                    <td class=" max-w-[60px] overflow-auto scroll_with-none capitalize">
+                        {{this.name}}
                     </td>
                     <td> {{this.like}}</td>
                     <td> {{this.view}}</td>
@@ -88,7 +88,7 @@
         <table class="w-full text-center">
             <thead>
                 <tr class="text-lg text-gray-400 font-bold">
-                    <td>Id</td>
+                    <td>Phim</td>
                     <td>Like</td>
                     <td>Views</td>
                     <td> Star</td>
@@ -98,7 +98,7 @@
                 {{#each listLastFilm}}
                 <tr>
                     <td class=" max-w-[60px] overflow-auto scroll_with-none">
-                        <div class="whitespace-nowrap "> #{{this._id}}</div>
+                        <div class="whitespace-nowrap capitalize  "> {{this.name}}</div>
                     </td>
                     <td>
                         <div class="whitespace-nowrap ">{{this.like}}</div>

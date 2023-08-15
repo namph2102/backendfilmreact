@@ -174,15 +174,17 @@ class CommemtController {
     try {
       const _id = req.body.data.idcommemt;
 
-      await CommemtModel.updateMany(
-        {},
-        { $pull: { subcomment: { $in: [_id] } } }
-      );
+      const comment = await CommemtModel.findByIdAndDelete(_id);
 
-      const comment = await CommemtModel.findByIdAndDelete({ _id });
-
-      if (comment) {
+      if (comment.level > 0) {
         CommemtController.DequiDeletecomment(comment);
+        await CommemtModel.updateMany(
+          {},
+          { $pull: { subcomment: { $in: [_id] } } },
+          { new: true, upsert: true, timestamps: false }
+        );
+      }
+      if (comment) {
         return res.json({ message: "Xóa thành công bình luận !", status: 200 });
       }
       return res.json({
@@ -200,7 +202,7 @@ class CommemtController {
   static async DequiDeletecomment(comment) {
     if (comment?.subcomment.length > 0) {
       comment.subcomment.map(async (_id) => {
-        const result = await CommemtModel.findByIdAndDelete({ _id });
+        const result = await CommemtModel.findByIdAndDelete(_id);
         CommemtController.DequiDeletecomment(result);
       });
     } else {
@@ -211,10 +213,7 @@ class CommemtController {
     try {
       const _id = req.body.data.idcommemt;
       const commemt = req.body.data.comment;
-      await CommemtModel.updateOne(
-        { _id },
-        { comment: commemt, is_edit: true }
-      );
+      await CommemtModel.updateOne(_id, { comment: commemt, is_edit: true });
       return res
         .status(200)
         .json({ message: "Chỉnh sửa nội dung thành công !", status: 200 });
